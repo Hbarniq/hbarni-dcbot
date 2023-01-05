@@ -8,7 +8,7 @@ exports.command = {
     {
       type: 3,
       name: "action",
-      description: "specifify what you want the command to do",
+      description: "specify what you want the command to do",
       required: true,
       choices: [
         {

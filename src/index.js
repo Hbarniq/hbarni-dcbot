@@ -30,7 +30,6 @@ for (const folder of functionfolders) {
 client.handleEvents();
 client.handleCommands();
 client.handleComponents();
-client.mcStatus();
 client.connect();
 (async () => { //database connection
   set("strictQuery", true)
