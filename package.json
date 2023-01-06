@@ -1,6 +1,6 @@
 {
   "name": "hbarnibot-eris",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "main": "src/index.js",
   "dependencies": {
     "@napi-rs/canvas": "^0.1.30",

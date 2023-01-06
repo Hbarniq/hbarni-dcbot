@@ -1,4 +1,3 @@
-const { warning } = require("../../extra/replyFunc");
 const guild = require("../../schemas/guild");
 module.exports = {
   name: "messageDelete",
