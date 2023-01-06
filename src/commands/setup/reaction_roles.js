@@ -1,6 +1,6 @@
 const { emojiRegex, discordEmojiRegex } = require("../../extra/emojiRegex");
 const guild = require("../../schemas/guild");
-exports.id = "1048593160886030381";
+exports.id = "1060216704547946536";
 exports.command = {
   name: "reaction_roles",
   description: "for setting up reaction roles",
@@ -180,7 +180,7 @@ exports.run = async (client, interaction) => {
         flags: 64,
         embed: {
           title: "success!",
-          description: `created role selection prompt! ✅`,
+          description: `created role selection prompt!`,
           color: 0x57f287,
         },
       });

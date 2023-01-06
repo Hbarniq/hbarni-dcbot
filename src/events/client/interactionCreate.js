@@ -30,6 +30,12 @@ module.exports = {
 } else if (interaction instanceof Eris.ComponentInteraction) {
     if (interaction.data.component_type === 2) { // button component
         const button = client.buttons.get(interaction.data.custom_id)
+
+        // kinda crappy solution
+        if (["🇦", "🇧", "🇨", "🇩", "🇪", "🇫", "🇬", "🇭", "🇮", "🇯", "🇰", "🇱", "🇲", "🇳", "🇴", "🇵", "🇶", "🇷", "🇸", "🇹", "🇺", "🇻", "🇼", "🇽", "🇾", "🇿"].includes(interaction.data.custom_id)) {
+            return await client.buttons.get("pollButton").run(client, interaction).catch(err => console.log(err));
+        }
+
         if (!button) {
             return interaction.createMessage({
                 content: "There is no code for this button???"

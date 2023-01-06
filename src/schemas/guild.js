@@ -13,17 +13,33 @@ const guildSchema = new Schema({
     welcomeChannel: String,
     required: false,
   },
-  tickets: [{
-    thread: String,
-    creator: String
-  }],
+  tickets: [
+    {
+      thread: String,
+      creator: String,
+    },
+  ],
   reaction_roles: {
-    roles: [{
-      id: String,
-      description: String,
-      emoji: String
-  }]
+    roles: [
+      {
+        id: String,
+        description: String,
+        emoji: String,
+      },
+    ],
   },
+  polls: [
+    {
+      id: String,
+      values: [
+        {
+          id: String,
+          votes: Number,
+        },
+      ],
+      voters: [String],
+    },
+  ],
   serverip: { type: String, required: false },
 });
 
