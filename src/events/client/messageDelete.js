@@ -7,10 +7,8 @@ module.exports = {
         guildId: message.channel.guild.id,
       }).catch();
     let poll = guildProfile.polls.find((p) => p.id == message.id)
-    
     if (poll != undefined) {
-        poll = undefined
-        guildProfile.save().catch()
+        await guildProfile.updateOne({ $pull: { polls: { id: poll.id } } });
         client.createMessage(message.channel.id, {
             embed: {
                 title: "warning!",
