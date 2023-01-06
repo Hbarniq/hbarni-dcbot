@@ -1,4 +1,5 @@
 const { emojiRegex, discordEmojiRegex } = require("../../extra/emojiRegex");
+const { error } = require("../../extra/replyFunc");
 const guild = require("../../schemas/guild");
 exports.id = "1060216704547946536";
 exports.command = {
@@ -58,29 +59,18 @@ exports.run = async (client, interaction) => {
     guildId: interaction.channel.guild.id,
   });
 
-  const error = async (msg) => {
-    return await interaction.createMessage({
-      flags: 64,
-      embed: {
-        title: "oops... something went wrong",
-        description: msg,
-        color: 0xed4245,
-      },
-    });
-  };
-
   switch (action) {
     case "add_role":
       if (added_role == undefined) {
-        return error('You did not define a role... try adding one in "added_role"');
+        return error('You did not define a role... try adding one in "added_role"', interaction);
       }
 
       if (guildProfile.reaction_roles.roles.map((o) => o.id).includes(added_role.value)) {
-        return error("You already defined this role :)");
+        return error("You already defined this role :)", interaction);
       }
 
       if (interaction.channel.guild.roles.find((r) => r.id == added_role.value).managed) {
-        return error("This role is bot only role!\nIt can't be added");
+        return error("This role is bot only role!\nIt can't be added", interaction);
       }
 
       const roleEmoji =
@@ -118,7 +108,7 @@ exports.run = async (client, interaction) => {
         guildProfile.reaction_roles == undefined ||
         guildProfile.reaction_roles.roles.length == 0
       ) {
-        return error("You need to define options for roles before sending");
+        return error("You need to define options for roles before sending", interaction);
       }
 
       const role_options = [];
@@ -190,7 +180,7 @@ exports.run = async (client, interaction) => {
     case "reset":
       guildProfile.reaction_roles = undefined;
       await guildProfile.save().catch((_err) => {
-        return error("Could not delete reaction roles data");
+        return error("Could not delete reaction roles data", interaction);
       });
 
       interaction.createMessage({

@@ -6,7 +6,7 @@ const { connect, set } = require('mongoose')
 const fs = require("fs");
 
 const client = new CommandClient(token ,{
-  intents: ["guilds", "guildMembers", "guildPresences"],
+  intents: ["guilds", "guildMembers", "guildPresences", "guildMessages"],
   allowedMentions: {everyone: false, users: true},
 }, {
   defaultHelpCommand: false
@@ -32,7 +32,7 @@ client.handleCommands();
 client.handleComponents();
 client.connect();
 (async () => { //database connection
-  set("strictQuery", true)
+  set("strictQuery", false)
   await connect(dbToken, { dbName: "data" }).catch(console.error) 
 })();
 // https://discord.com/api/oauth2/authorize?client_id=768875082705534977&permissions=8&scope=bot%20applications.commands

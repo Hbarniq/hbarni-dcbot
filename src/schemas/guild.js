@@ -31,9 +31,14 @@ const guildSchema = new Schema({
   polls: [
     {
       id: String,
+      data: {
+        title: String,
+        description: String
+      },
       values: [
         {
           id: String,
+          name: String,
           votes: Number,
         },
       ],

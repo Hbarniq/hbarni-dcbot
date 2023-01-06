@@ -1,3 +1,4 @@
+const { error, success } = require("../../extra/replyFunc");
 const guild = require("../../schemas/guild");
 exports.id = "1048593160886030385"
 exports.command = {
@@ -23,7 +24,8 @@ exports.command = {
     {
         type: 3,
         name: "options",
-        description: "example: title | description"
+        description: "example: title | description",
+        max_length: 200
     },
     {
         type: 3,
@@ -50,31 +52,20 @@ exports.run = async (client, interaction) => {
         guildId: interaction.channel.guild.id,
       });
 
-    const error = async (msg) => {
-      return await interaction.createMessage({
-        flags: 64,
-        embed: {
-          title: "oops... something went wrong",
-          description: msg,
-          color: 0xed4245,
-        },
-      });
-    };
-
     switch (action) {
         case "start":
             if (!choices || !options) {
-                return error('You need to specify "options" and "choices" when starting a poll')
+                return error('You need to specify "options" and "choices" when starting a poll', interaction)
             }
 
             const sepChoices = choices.value.split("|")
-            if(sepChoices.length < 2 || sepChoices.length > 25) {
-                return error("You need at least 2 choices and a maximum of 25, You need to seprate choices with a '|' character")
+            if(sepChoices.length < 2 || sepChoices.length > 10) {
+                return error("You need at least 2 choices and a maximum of 10, You need to seprate choices with a '|' character", interaction)
             }
 
             const sepOptions = options.value.split("|")
             if (sepOptions.length < 1 || sepOptions.length > 2) {
-                return error("You need to define at least a title for your poll")
+                return error("You need to define at least a title for your poll", interaction)
             }
 
             let rows = [{
@@ -109,6 +100,7 @@ exports.run = async (client, interaction) => {
 
                 values.push({
                     id: _emoji[i],
+                    name: sepChoices[i],
                     votes: 0
                 })
             }
@@ -128,7 +120,7 @@ exports.run = async (client, interaction) => {
             await client.editMessage(interaction.channel.id, msg.id, {
                 embed: {
                     title: sepOptions[0],
-                    description: `${sepOptions[1] || "No description"}\n${description}`,
+                    description: `${sepOptions[1] || "No description"} \n${description}`,
                     color: 0x206694,
                     footer: {
                         text: `poll_ID: ${msg.id}`
@@ -138,6 +130,10 @@ exports.run = async (client, interaction) => {
 
             guildProfile.polls.push({
                 id: msg.id,
+                data: {
+                    title: sepOptions[0],
+                    description: `${sepOptions[1] || "No description"}`
+                },
                 values: values,
                 voters: []
             })
@@ -155,10 +151,31 @@ exports.run = async (client, interaction) => {
             break;
 
         case "end":
+            if (poll_id == undefined) {
+                return error('poll_ID not defined, please fill out the "id" option with the poll\'s id', interaction)
+            }
+            let poll = guildProfile.polls.find((p) => p.id == poll_id.value)
+            if (poll == undefined) {
+                return error("Invalid poll_ID!\nthe poll's id is listed on the poll itself", interaction)
+            }
+            let end_values = ""
+            poll.values.forEach((p) => end_values += `\n${p.id}: ${p.name}\nhad: ${p.votes} votes\n`)
 
-            guildProfile.polls = undefined
+            client.editMessage(interaction.channel.id, poll_id.value, {
+                embed: {
+                    title: `${poll.data.title} - ended.`,
+                    description: `${poll.data.description} \n${end_values}`,
+                    color: 0x206694,
+                    footer: { text: `concluded` },
+                    timestamp: new Date().toISOString()
+                },
+                components: []
+            })
+
+            poll = undefined
             guildProfile.save().catch()
 
+            success("Ended poll and showed results!", interaction)
             break;
     
         default:

@@ -1,4 +1,5 @@
 const util = require("minecraft-server-util");
+const { error } = require("../../extra/replyFunc");
 const guild = require("../../schemas/guild");
 require("dotenv").config();
 
@@ -19,15 +20,6 @@ exports.command = {
 };
 exports.run = async (client, interaction) => {
   await interaction.defer();
-  const error = async (msg) => {
-    return await interaction.createMessage({
-      embed: {
-        title: "oops... something went wrong",
-        description: msg,
-        color: 0xed4245,
-      },
-    });
-  };
 
   let guildProfile = await guild.findOne({
     guildId: interaction.channel.guild.id,
@@ -42,7 +34,7 @@ exports.run = async (client, interaction) => {
         !/^(?=\d+\.\d+\.\d+\.\d+$)(?:(?:25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]|[0-9])\.?){4}$/.test(ip)
       ) {
         return error(
-          'the ip you want to change to is not a valid ip adress\nif you are trying to specify ":25565" at the end you dont have to'
+          'the ip you want to change to is not a valid ip adress\nif you are trying to specify ":25565" at the end you dont have to', interaction
         );
       }
 
@@ -57,14 +49,14 @@ exports.run = async (client, interaction) => {
       });
     } else {
       return error(
-        "you don't have permission to change the pinged server's ip only administrators do"
+        "you don't have permission to change the pinged server's ip only administrators do", interaction
       );
     }
   }
 
   if (!serverip) {
     return error(
-      "you have not defined a server ip yet! \ntry the change ip option"
+      "you have not defined a server ip yet! \ntry the change ip option", interaction
     );
   }
 
