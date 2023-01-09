@@ -129,10 +129,18 @@ exports.run = async (client, interaction) => {
               name: r.emoji.split(":")[1],
             }
           : {};
+        
+        const channelId = /<(#[0-9])\w+>/g
+        let cleanDesc = ""
+
+        if (r.description.search(channelId != -1)) {
+          const clean = r.description.match(channelId)[0]
+          cleanDesc = r.description.replace(clean, interaction.channel.guild.channels.find((c) => c.id == clean.replace(/<|#|>/g, "")).name)
+        }
 
         role_options.push({
           label: roleName,
-          description: r.description,
+          description: cleanDesc != "" ? cleanDesc : r.description,
           emoji: sentEmoji,
           value: r.id,
         });
