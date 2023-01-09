@@ -67,8 +67,8 @@ exports.run = async (client, interaction) => {
   const guildProfile = await guild.findOne({
     guildId: interaction.channel.guild.id,
   });
-  if (type == undefined) {
-    type = "simple";
+  if (!type) {
+    type = { value: "simple" }
   }
 
   switch (action) {
