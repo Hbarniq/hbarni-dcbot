@@ -12,8 +12,8 @@ exports.command = {
     },
   ],
   type: 1,
-  defaultPermission: true,
-  default_member_permissions: 0x8,
+  defaultPermission: false,
+  default_member_permissions: BigInt(1 << 3),
 };
 exports.run = async (client, interaction) => {
   await interaction.defer(64);

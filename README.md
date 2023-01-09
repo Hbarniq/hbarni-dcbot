@@ -10,6 +10,7 @@
 
 # Hbarni-dcbot
 
-this is a discord bot made for AHMS and other servers and mainly for personal usage
+this is a discord bot made for AHMS and other servers and mainly for personal usage <br>
+here have an [invite link](https://discord.com/api/oauth2/authorize?client_id=768875082705534977&permissions=8&scope=bot%20applications.commands) :) 
 
 (it was originally a private repo but I published it thats why there is so few commits)

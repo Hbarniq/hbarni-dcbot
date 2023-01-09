@@ -5,7 +5,7 @@ exports.command = {
     description: "Creates a custom embed",
     type: 1,
     defaultPermission: true,
-    default_member_permissions: 0x0000000000004000, // embed links
+    default_member_permissions: BigInt(1 << 14), // embed links
   };
   exports.run = async (client, interaction) => {
     await axios({

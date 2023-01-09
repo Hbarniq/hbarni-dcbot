@@ -18,4 +18,3 @@ client.slashCommands = [];
 
 require("./startup.js")(client);
 client.startup();
-// https://discord.com/api/oauth2/authorize?client_id=768875082705534977&permissions=8&scope=bot%20applications.commands
