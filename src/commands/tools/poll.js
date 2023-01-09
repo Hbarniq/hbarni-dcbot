@@ -165,14 +165,7 @@ exports.run = async (client, interaction) => {
           });
           guildProfile.save().catch();
 
-          interaction.createMessage({
-            flags: 64,
-            embed: {
-              title: "success!",
-              description: `created poll!`,
-              color: 0x57f287,
-            },
-          });
+          success("created poll!", interaction);
 
           break;
 
@@ -191,10 +184,12 @@ exports.run = async (client, interaction) => {
             },
           });
 
+          
           for (let i = 0; i < sepChoices.length; i++) {
-            simpleMsg.addReaction(_emoji[i]);
+            await simpleMsg.addReaction(_emoji[i]);
           }
-
+          
+          success("created poll!", interaction);
           break;
 
         default:
