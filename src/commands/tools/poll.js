@@ -34,6 +34,21 @@ exports.command = {
     },
     {
       type: 3,
+      name: "type",
+      description: "the type of poll to send (defaults to simple)",
+      choices: [
+        {
+          name: "simple (using reactions)",
+          value: "simple",
+        },
+        {
+          name: "complex (votes are hidden, has to be ended)",
+          value: "complex",
+        },
+      ],
+    },
+    {
+      type: 3,
       name: "id",
       description: "needed to conclude poll",
     },
@@ -47,119 +62,144 @@ exports.run = async (client, interaction) => {
   const action = interaction.data.options.find((o) => o.name == "action").value;
   const options = interaction.data.options.find((o) => o.name == "options");
   const choices = interaction.data.options.find((o) => o.name == "choices");
+  let type = interaction.data.options.find((o) => o.name == "type");
   const poll_id = interaction.data.options.find((o) => o.name == "id");
   const guildProfile = await guild.findOne({
     guildId: interaction.channel.guild.id,
   });
+  if (type == undefined) {
+    type = "simple";
+  }
 
   switch (action) {
     case "start":
       if (!choices || !options) {
-        return error(
-          'You need to specify "options" and "choices" when starting a poll',
-          interaction
-        );
+        return error('You need to specify "options" and "choices" when starting a poll', interaction);
       }
 
       const sepChoices = choices.value.split("|");
       if (sepChoices.length < 2 || sepChoices.length > 10) {
-        return error(
-          "You need at least 2 choices and a maximum of 10, You need to seprate choices with a '|' character",
-          interaction
-        );
+        return error("You need at least 2 choices and a maximum of 10, You need to seprate choices with a '|' character", interaction);
       }
 
       const sepOptions = options.value.split("|");
       if (sepOptions.length < 1 || sepOptions.length > 2) {
-        return error(
-          "You need to define at least a title for your poll",
-          interaction
-        );
+        return error("You need to define at least a title for your poll", interaction);
       }
 
-      let rows = [
-        {
-          type: 1,
-          components: [],
-        },
-      ];
       const _emoji = ["🇦","🇧","🇨","🇩","🇪","🇫","🇬","🇭","🇮","🇯","🇰","🇱","🇲","🇳","🇴","🇵","🇶","🇷","🇸","🇹","🇺","🇻","🇼","🇽","🇾","🇿",];
       const emojis = [];
-      const values = [];
       let description = "";
 
-      for (let i = 0; i < sepChoices.length; i++) {
-        let ind = Math.floor(i / 5);
-        emojis.push(_emoji[i]);
-
-        const button = {
-          type: 2,
-          custom_id: emojis[i],
-          emoji: {
-            id: null,
-            name: emojis[i],
-          },
-          style: 2,
-        };
-
-        description += `\n${_emoji[i]} ${sepChoices[i]}`;
-
-        rows[ind]
-          ? rows[ind].components.push(button)
-          : rows.push({
+      switch (type.value) {
+        case "complex":
+          let rows = [{
               type: 1,
-              components: [button],
+              components: [],
+            },];
+          const values = [];
+
+          for (let i = 0; i < sepChoices.length; i++) {
+            let ind = Math.floor(i / 5);
+            emojis.push(_emoji[i]);
+
+            const button = {
+              type: 2,
+              custom_id: emojis[i],
+              emoji: {
+                id: null,
+                name: emojis[i],
+              },
+              style: 2,
+            };
+
+            description += `\n${_emoji[i]} ${sepChoices[i]}`;
+
+            rows[ind]
+              ? rows[ind].components.push(button)
+              : rows.push({
+                  type: 1,
+                  components: [button],
+                });
+
+            values.push({
+              id: _emoji[i],
+              name: sepChoices[i],
+              votes: 0,
             });
+          }
 
-        values.push({
-          id: _emoji[i],
-          name: sepChoices[i],
-          votes: 0,
-        });
+          const msg = await client.createMessage(interaction.channel.id, {
+            embed: {
+              title: sepOptions[0],
+              description: sepOptions[1] || "No description",
+              color: 0x206694,
+              footer: {
+                text: `Waiting for poll_ID...`,
+              },
+            },
+            components: rows,
+          });
+
+          await client.editMessage(interaction.channel.id, msg.id, {
+            embed: {
+              title: sepOptions[0],
+              description: `${
+                sepOptions[1] || "No description"
+              } \n${description}`,
+              color: 0x206694,
+              footer: {
+                text: `poll_ID: ${msg.id}`,
+              },
+            },
+          });
+
+          guildProfile.polls.push({
+            id: msg.id,
+            data: {
+              title: sepOptions[0],
+              description: `${sepOptions[1] || "No description"}`,
+            },
+            values: values,
+            voters: [],
+          });
+          guildProfile.save().catch();
+
+          interaction.createMessage({
+            flags: 64,
+            embed: {
+              title: "success!",
+              description: `created poll!`,
+              color: 0x57f287,
+            },
+          });
+
+          break;
+
+        case "simple":
+          for (let i = 0; i < sepChoices.length; i++) {
+            description += `\n${_emoji[i]} ${sepChoices[i]}\n`;
+          }
+
+          const simpleMsg = await client.createMessage(interaction.channel.id, {
+            embed: {
+              title: sepOptions[0],
+              description: `${
+                sepOptions[1] || "No description"
+              } \n${description}`,
+              color: 0x206694,
+            },
+          });
+
+          for (let i = 0; i < sepChoices.length; i++) {
+            simpleMsg.addReaction(_emoji[i]);
+          }
+
+          break;
+
+        default:
+          break;
       }
-
-      const msg = await client.createMessage(interaction.channel.id, {
-        embed: {
-          title: sepOptions[0],
-          description: sepOptions[1] || "No description",
-          color: 0x206694,
-          footer: {
-            text: `Waiting for poll_ID...`,
-          },
-        },
-        components: rows,
-      });
-
-      await client.editMessage(interaction.channel.id, msg.id, {
-        embed: {
-          title: sepOptions[0],
-          description: `${sepOptions[1] || "No description"} \n${description}`,
-          color: 0x206694,
-          footer: {
-            text: `poll_ID: ${msg.id}`,
-          },
-        },
-      });
-
-      guildProfile.polls.push({
-        id: msg.id,
-        data: {
-          title: sepOptions[0],
-          description: `${sepOptions[1] || "No description"}`,
-        },
-        values: values,
-        voters: [],
-      });
-      guildProfile.save().catch();
-
-      interaction.createMessage({
-        flags: 64,
-        embed: {
-          title: "success!",
-          description: `created poll!`,
-          color: 0x57f287,
-        },
-      });
 
       break;
 
