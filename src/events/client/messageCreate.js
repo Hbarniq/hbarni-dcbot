@@ -31,4 +31,3 @@ module.exports = {
     
   },
 };
-// removes unused DB document
