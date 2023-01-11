@@ -15,16 +15,17 @@ module.exports = {
     avatar = message.author.dynamicAvatarURL(
       message.author.avatar.startsWith("a_") ? "gif" : "png", 128
     );
-  else avatar = "https://discord.com/assets/847541504914fd33810e70a0ea73177e.ico";
+    else avatar = "https://discord.com/assets/847541504914fd33810e70a0ea73177e.ico";
 
     client.createMessage(bridge.bridgedWith.channelId, {
       embed: {
-        description: message.content,
+        description: message.referencedMessage ? `reply to: <@${message.referencedMessage.author.id}>\n\n${message.content}` : message.content,
         author: {
           name: message.member.username,
           icon_url: avatar
         },
         color: 0x206694,
+        attachments: message.attachments
       }
     })
     
