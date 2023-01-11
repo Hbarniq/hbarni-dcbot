@@ -6,7 +6,7 @@ module.exports = {
 
     console.log(message.attachments)
 
-    client.createMessage("884107536444297296", {
+    client.createMessage("1018943780172345405", {
         embed: {
             description: message.content,
             author: {
