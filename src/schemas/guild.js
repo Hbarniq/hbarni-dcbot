@@ -45,6 +45,16 @@ const guildSchema = new Schema({
       voters: [String],
     },
   ],
+  bridges: [
+    {
+      id: String,
+      pending: Boolean,
+      bridgedWith: {
+        guildId: String,
+        channelId: String
+      }
+    }
+  ],
   serverip: { type: String, required: false },
 });
 

@@ -1,4 +1,5 @@
 const Eris = require("eris");
+const { error } = require("../../extra/replyFunc");
 module.exports = {
     name: "interactionCreate",
     async execute(interaction, client) { 
@@ -31,9 +32,13 @@ module.exports = {
     if (interaction.data.component_type === 2) { // button component
         const button = client.buttons.get(interaction.data.custom_id)
 
-        // kinda crappy solution
+        // pollButton
         if (["🇦", "🇧", "🇨", "🇩", "🇪", "🇫", "🇬", "🇭", "🇮", "🇯", "🇰", "🇱", "🇲", "🇳", "🇴", "🇵", "🇶", "🇷", "🇸", "🇹", "🇺", "🇻", "🇼", "🇽", "🇾", "🇿"].includes(interaction.data.custom_id)) {
-            return await client.buttons.get("pollButton").run(client, interaction).catch(err => console.log(err));
+            return await client.buttons.get("pollButton").run(client, interaction).catch(err => error("Somehow I was unable to press that button right!", interaction));
+        }
+        // bridgeButton
+        if (["bridge_accept", "bridge_decline"].includes(interaction.data.custom_id)) {
+            return await client.buttons.get("bridgeButton").run(client, interaction).catch(err => {error("Somehow I was unable to press that button right!", interaction); console.log(err)});
         }
 
         if (!button) {

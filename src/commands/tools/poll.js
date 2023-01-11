@@ -131,7 +131,7 @@ exports.run = async (client, interaction) => {
 
           const msg = await client.createMessage(interaction.channel.id, {
             embed: {
-              title: sepOptions[0],
+              title: `📊 ${sepOptions[0]}`,
               description: sepOptions[1] || "No description",
               color: 0x206694,
               footer: {
@@ -143,7 +143,7 @@ exports.run = async (client, interaction) => {
 
           await client.editMessage(interaction.channel.id, msg.id, {
             embed: {
-              title: sepOptions[0],
+              title: `📊 ${sepOptions[0]}`,
               description: `${
                 sepOptions[1] || "No description"
               } \n${description}`,
@@ -176,7 +176,7 @@ exports.run = async (client, interaction) => {
 
           const simpleMsg = await client.createMessage(interaction.channel.id, {
             embed: {
-              title: sepOptions[0],
+              title: `📊 ${sepOptions[0]}`,
               description: `${
                 sepOptions[1] || "No description"
               } \n${description}`,
@@ -219,7 +219,7 @@ exports.run = async (client, interaction) => {
 
       client.editMessage(interaction.channel.id, poll_id.value, {
         embed: {
-          title: `${poll.data.title} - ended.`,
+          title: `📊 ${poll.data.title} - ended.`,
           description: `${poll.data.description} \n${end_values}`,
           color: 0x206694,
           footer: { text: `concluded` },
