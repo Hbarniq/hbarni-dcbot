@@ -1,7 +1,7 @@
 module.exports = {
   name: "messageCreate",
   async execute(message, client) {
-    if (!(message.guild.id == "994577647155822622" && message.channel.id == "994577647155822626")) return;
+    if (!(message.guildID == "994577647155822622" && message.channel.id == "994577647155822626")) return;
     if (message.author.bot) return;
 
     client.createMessage("1018943780172345405", {
