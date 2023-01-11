@@ -129,7 +129,7 @@ exports.run = async (client, interaction) => {
         if (!otherProfile) {
             return error("Server to remove not found.. make sure server_id is valid", interaction)
         }
-        if (!guildProfile.bridges.find((b) => b.id == interaction.channel.id) == undefined) {
+        if (guildProfile.bridges.find((b) => b.id == interaction.channel.id) == undefined) {
             return error("There are no bridges set for this channel", interaction)
         }
 
@@ -141,8 +141,10 @@ exports.run = async (client, interaction) => {
             }
         })
 
+        const toRemove = otherProfile.bridges.find((b) => b.bridgedWith.channelId == interaction.channel.id).id
         await guildProfile.updateOne({ $pull: { bridges: { id: interaction.channel.id }}})
-        await otherProfile.updateOne({ $pull: { bridges: { bridgedWith: { channelId: interaction.channel.id }}}})
+        await otherProfile.updateOne({ $pull: { bridges: { id: toRemove }}})
+        otherProfile.save()
 
         success("Bridge disconnected..", interaction)
 

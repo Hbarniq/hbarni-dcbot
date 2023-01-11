@@ -4,7 +4,9 @@ module.exports = {
     if (!(message.guildID == "994577647155822622" && message.channel.id == "994577647155822626")) return;
     if (message.author.bot) return;
 
-    client.createMessage("1018943780172345405", {
+    console.log(message.attachments)
+
+    client.createMessage("884107536444297296", {
         embed: {
             description: message.content,
             author: {
@@ -12,6 +14,9 @@ module.exports = {
                 icon_url: message.author.dynamicAvatarURL(message.author.avatar.startsWith("a_") ? "gif" : "png", 128)
             },
             color: 0x206694,
+            footer: {
+                text: `attachments: ${message.attachments.length}`
+            }
         },
     })
     
