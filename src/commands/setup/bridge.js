@@ -144,7 +144,6 @@ exports.run = async (client, interaction) => {
         const toRemove = otherProfile.bridges.find((b) => b.bridgedWith.channelId == interaction.channel.id).id
         await guildProfile.updateOne({ $pull: { bridges: { id: interaction.channel.id }}})
         await otherProfile.updateOne({ $pull: { bridges: { id: toRemove }}})
-        otherProfile.save()
 
         success("Bridge disconnected..", interaction)
 
