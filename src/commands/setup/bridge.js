@@ -64,9 +64,11 @@ exports.run = async (client, interaction) => {
 
   switch (action) {
     case "bridge":
+      if (guildProfile.bridges && otherProfile.bridges) {
       if (guildProfile.bridges.find((b) => b.id == interaction.channel.id) != undefined || otherProfile.bridges.find((b) => b.bridgedWith.channelId == interaction.channel.id) != undefined) {
         return error("Cant bridge multiple channels to one", interaction)
       }
+    }
 
 
       await client.createMessage(channelId, {
