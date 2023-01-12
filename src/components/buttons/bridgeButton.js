@@ -16,6 +16,10 @@ module.exports = {
         })
         const recievedFromChannel = recievedFromProfile.bridges.find((b) => b.bridgedWith.channelId == interaction.channel.id)
 
+        if (!interaction.member.permissions.has(BigInt(1 << 4))) {
+            return error("You dont have permissions to accept/decline a bridge request")
+        }
+
         switch (id) {
             case "bridge_accept":
                 guildProfile.bridges.find((b) => b.id == interaction.channel.id).pending = false
