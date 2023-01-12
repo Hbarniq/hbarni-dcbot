@@ -1,10 +1,9 @@
 {
   "name": "hbarnibot",
-  "version": "2.1.7",
+  "version": "2.2.2",
   "main": "src/index.js",
   "dependencies": {
     "@napi-rs/canvas": "^0.1.30",
-    "axios": "^1.2.0",
     "dotenv": "^16.0.3",
     "minecraft-server-util": "^5.3.1",
     "mongoose": "^6.8.0",

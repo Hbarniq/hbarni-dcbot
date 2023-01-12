@@ -1,4 +1,3 @@
-const axios = require("axios");
 const guild = require("../../schemas/guild");
 module.exports = {
   // modals https://www.youtube.com/watch?v=Yu0jnPXKJSo (Eris doesnt have an official way of doin this)
