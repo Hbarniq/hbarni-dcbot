@@ -38,7 +38,7 @@ module.exports = {
       const context = canvas.getContext("2d");
       const background = await Canvas.loadImage(backgrounds[random]);
       const avatar = await Canvas.loadImage(
-        await member.user.dynamicAvatarURL("png")
+        await member.user.avatarURL("png")
       );
       context.drawImage(background, 0, 0, canvas.width, canvas.height);
 
@@ -69,18 +69,18 @@ module.exports = {
         description:
           "welcome to the server :D\ngo check out things like <#1036659271061999776>, <#1036334633333309440>",
       };
-      const msg = await client.createMessage(
-        guildProfile.welcome.welcomeChannel,
-        {
-          content: `<@${member.id}>`,
-          embed: welcomeEmbed,
-        },
-        {
-          file: await canvas.encode("png"),
-          name: "backgroundimg.png",
-        }
-      );
-      client.addMessageReaction(msg.channel.id, msg.id, "👋");
+      
+      const welcomeChannel = await client.rest.channels.get(guildProfile.welcome.welcomeChannel)
+      const msg = await welcomeChannel.createMessage({
+        content: `<@${member.id}>`,
+        embeds: [welcomeEmbed],
+      },
+      {
+        file: await canvas.encode("png"),
+        name: "backgroundimg.png",
+      }
+    );
+      msg.createReaction("👋");
     } else return;
   },
 };

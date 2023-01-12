@@ -1,14 +1,15 @@
 console.clear();
 require("dotenv").config();
 const { token } = process.env;
-const { CommandClient, Collection } = require("eris");
+const { Client, Collection } = require("oceanic.js")
 
-const client = new CommandClient(token, {
-    intents: ["guilds", "guildMembers", "guildPresences", "guildMessages"],
-    allowedMentions: { everyone: false, users: true },
-  },
-  { defaultHelpCommand: false }
-);
+const client = new Client({
+  auth: token,
+  allowedMentions: { everyone: false, users: true},
+  gateway: {
+    intents: ["GUILDS", "GUILD_MEMBERS", "GUILD_PRESENCES", "GUILD_MESSAGES", "MESSAGE_CONTENT"]
+  }
+})
 
 client.commands = new Collection();
 client.buttons = new Collection();

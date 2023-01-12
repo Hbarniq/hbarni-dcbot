@@ -2,39 +2,29 @@ exports.id = "1048593160886030381";
 exports.command = {
   name: "infosetup",
   description: "specificly for the AHMS discord server",
-  options: [
-    {
-      type: 7,
-      name: "channel",
-      description: "the channel to show info selectmenu in",
-      channel_types: [0, 5],
-      required: true,
-    },
-  ],
   type: 1,
   defaultPermission: false,
-  default_member_permissions: BigInt(1 << 3),
+  defaultMemberPermissions: BigInt(1 << 3),
 };
 exports.run = async (client, interaction) => {
-  await interaction.defer(64);
-  const channel = interaction.data.options[0].value;
+  if (interaction.guild.id != "1036322425811513484") return;
 
-  await client.createMessage(channel, {
-    embed: {
+  await interaction.channel.createMessage({
+    embeds: [{
       title: "Get info about AHMS :D",
       description: "Choose what you want info about from the menu",
       image: {
         url: "https://cdn.discordapp.com/attachments/1050691362128924743/1050692389892796437/info.png",
       },
       color: 0x5865f2,
-    },
+    }],
     components: [
       {
         type: 1, //actionrow
         components: [
           {
             type: 3, //selectmenu
-            custom_id: "infoMenu",
+            customID: "infoMenu",
             placeholder: "Select what you want info about",
             options: [
               {
@@ -81,5 +71,5 @@ exports.run = async (client, interaction) => {
     ],
   });
 
-  interaction.createMessage({ content: `Created info menu in <#${channel}> ✅` });
+  interaction.createMessage({ flags: 64, content: `Created info menu ✅` });
 };

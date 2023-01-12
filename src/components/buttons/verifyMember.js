@@ -4,8 +4,6 @@ module.exports = {
     name: "verifyMember",
   },
   async run(client, interaction) {
-    await interaction.defer(64);
-
     const accDate = (days) => {
       return Date.now() - interaction.member.createdAt < 1000 * 60 * 60 * 24 * days
     };
@@ -17,12 +15,12 @@ module.exports = {
       {
       return interaction.createMessage({
         flags: 64,
-        embed: {
+        embeds: [{
           title: "oops... something went wrong",
           description:
             "Your account was deemed suspicious and did not pass verification\nIf you think this is wrong contact a moderator",
           color: 0xed4245,
-        },
+        }],
       });
     }
 
@@ -37,10 +35,11 @@ module.exports = {
     await interaction.member.addRole(role.id).catch(console.error);
 
     interaction.createMessage({
-      embed: {
+      flags: 64,
+      embeds: [{
         color: 0x57f287,
         description: "You have been verified :D",
-      },
+      }],
     });
     if (!guildProfile.welcome.using) return;
 
@@ -78,7 +77,7 @@ module.exports = {
     const context = canvas.getContext("2d");
     const background = await Canvas.loadImage(backgrounds[random]);
     const avatar = await Canvas.loadImage(
-      await member.user.dynamicAvatarURL("png")
+      await member.user.avatarURL("png")
     );
     context.drawImage(background, 0, 0, canvas.width, canvas.height);
 
@@ -109,17 +108,17 @@ module.exports = {
       description:
         "welcome to the server :D\ngo check out things like <#1036659271061999776>, <#1036334633333309440>",
     };
-    const msg = await client.createMessage(
-      guildProfile.welcome.welcomeChannel,
-      {
+
+    const welcomeChannel = await client.rest.channels.get(guildProfile.welcome.welcomeChannel)
+    const msg = await welcomeChannel.createMessage({
         content: `<@${member.id}>`,
-        embed: welcomeEmbed,
+        embeds: [welcomeEmbed],
+        files: [{
+          contents: await canvas.encode("png"),
+          name: "backgroundimg.png"
+        }]
       },
-      {
-        file: await canvas.encode("png"),
-        name: "backgroundimg.png",
-      }
     );
-    client.addMessageReaction(msg.channel.id, msg.id, "👋");
+    msg.createReaction("👋");
   },
 };

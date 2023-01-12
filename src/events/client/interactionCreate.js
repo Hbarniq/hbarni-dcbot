@@ -1,10 +1,10 @@
-const Eris = require("eris");
+const Oceanic = require("oceanic.js")
 const { error } = require("../../extra/replyFunc");
 module.exports = {
     name: "interactionCreate",
     async execute(interaction, client) { 
         
-    if (interaction instanceof Eris.CommandInteraction) {
+    if (interaction instanceof Oceanic.CommandInteraction) {
     // Get the command name from the collection
     const command = client.commands.get(interaction.data.name);
     if (!command) {
@@ -28,16 +28,16 @@ module.exports = {
         }).catch(e => {});
         console.error(e);
     }
-} else if (interaction instanceof Eris.ComponentInteraction) {
-    if (interaction.data.component_type === 2) { // button component
-        const button = client.buttons.get(interaction.data.custom_id)
+} else if (interaction instanceof Oceanic.ComponentInteraction) {
+    if (interaction.data.componentType === 2) { // button component
+        const button = client.buttons.get(interaction.data.customID)
 
         // pollButton
-        if (["🇦", "🇧", "🇨", "🇩", "🇪", "🇫", "🇬", "🇭", "🇮", "🇯", "🇰", "🇱", "🇲", "🇳", "🇴", "🇵", "🇶", "🇷", "🇸", "🇹", "🇺", "🇻", "🇼", "🇽", "🇾", "🇿"].includes(interaction.data.custom_id)) {
+        if (["🇦", "🇧", "🇨", "🇩", "🇪", "🇫", "🇬", "🇭", "🇮", "🇯", "🇰", "🇱", "🇲", "🇳", "🇴", "🇵", "🇶", "🇷", "🇸", "🇹", "🇺", "🇻", "🇼", "🇽", "🇾", "🇿"].includes(interaction.data.customID)) {
             return await client.buttons.get("pollButton").run(client, interaction).catch(err => error("Somehow I was unable to press that button right!", interaction));
         }
         // bridgeButton
-        if (["bridge_accept", "bridge_decline"].includes(interaction.data.custom_id)) {
+        if (["bridge_accept", "bridge_decline"].includes(interaction.data.customID)) {
             return await client.buttons.get("bridgeButton").run(client, interaction).catch(err => {error("Somehow I was unable to press that button right!", interaction); console.log(err)});
         }
 
@@ -62,8 +62,8 @@ module.exports = {
             }).catch(e => {});
             console.error(e)
         }
-    } else if (interaction.data.component_type === 3) {
-        const selectMenu = client.selectMenus.get(interaction.data.custom_id)
+    } else if (interaction.data.componentType === 3) {
+        const selectMenu = client.selectMenus.get(interaction.data.customID)
         if (!selectMenu) {
             return interaction.createMessage({
                 content: "There is no code for this selectMenu"
@@ -85,8 +85,8 @@ module.exports = {
             }).catch(e => {});
         }
     }
-} else if (interaction instanceof Eris.UnknownInteraction && interaction.type == 5) { //representation of modalSubmit interaction because Eris doesnt support it
-    const modal = client.modals.get(interaction.data.custom_id)
+} else if (interaction instanceof Oceanic.ModalSubmitInteraction) { //representation of modalSubmit interaction because Eris doesnt support it
+    const modal = client.modals.get(interaction.data.customID)
     if (!modal) {
         return interaction.createMessage({
             content: "There is no code for that modal"

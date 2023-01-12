@@ -1,3 +1,4 @@
+const { ConnectionServices } = require("oceanic.js");
 const { emojiRegex, discordEmojiRegex } = require("../../extra/emojiRegex");
 const { error } = require("../../extra/replyFunc");
 const guild = require("../../schemas/guild");
@@ -35,25 +36,24 @@ exports.command = {
       type: 3,
       name: "description",
       description: "the added role's description",
-      max_length: 75,
+      maxLength: 75,
     },
     {
       type: 3,
       name: "emoji",
       description: "the emoji to display for adding that role",
-      max_length: 100,
+      maxLength: 100,
     },
   ],
   type: 1,
   defaultPermission: true,
-  default_member_permissions: BigInt(1 << 28),
+  defaultMemberPermissions: BigInt(1 << 28),
 };
 exports.run = async (client, interaction) => {
-  await interaction.defer(64);
-  const action = interaction.data.options.find((o) => o.name == "action").value;
-  const added_role = interaction.data.options.find((o) => o.name == "role");
-  const description = interaction.data.options.find((o) => o.name == "description");
-  const emoji = interaction.data.options.find((o) => o.name == "emoji");
+  const action = interaction.data.options.getString("action", true);
+  const added_role = interaction.data.options.getRole("role");
+  const description = interaction.data.options.getString("description");
+  const emoji = interaction.data.options.getString("emoji");
 
   const guildProfile = await guild.findOne({
     guildId: interaction.channel.guild.id,
@@ -65,23 +65,23 @@ exports.run = async (client, interaction) => {
         return error('You did not define a role... try adding one in "added_role"', interaction);
       }
 
-      if (guildProfile.reaction_roles.roles.map((o) => o.id).includes(added_role.value)) {
+      if (guildProfile.reaction_roles.roles.map((o) => o.id).includes(added_role.id)) {
         return error("You already defined this role :)", interaction);
       }
 
-      if (interaction.channel.guild.roles.find((r) => r.id == added_role.value).managed) {
+      if (added_role.managed) {
         return error("This role is bot only role!\nIt can't be added", interaction);
       }
 
       const roleEmoji =
         !emoji ||
-        (!emojiRegex.test(emoji.value) && !discordEmojiRegex.test(emoji.value))
+        (!emojiRegex.test(emoji) && !discordEmojiRegex.test(emoji))
           ? "➖"
-          : emoji.value;
+          : emoji;
 
       const role = {
-        id: added_role.value,
-        description: description ? description.value : "No description...",
+        id: added_role.id,
+        description: description ? description : "No description...",
         emoji: roleEmoji,
       };
 
@@ -90,7 +90,7 @@ exports.run = async (client, interaction) => {
 
       interaction.createMessage({
         flags: 64,
-        embed: {
+        embeds: [{
           title: "success!",
           description: `added the role to reaction roles!\nrole: <@&${
             role.id
@@ -98,7 +98,7 @@ exports.run = async (client, interaction) => {
             role.emoji == "➖" ? "`No emoji set...`" : role.emoji
           }`,
           color: 0x57f287,
-        },
+        }],
       });
 
       break;
@@ -113,7 +113,7 @@ exports.run = async (client, interaction) => {
 
       const role_options = [];
       const fields = [];
-      const guildRoles = interaction.channel.guild.roles; // to cache roles
+      const guildRoles = interaction.guild.roles;
 
       guildProfile.reaction_roles.roles.forEach((r) => {
         const roleName = guildRoles.find((role) => role.id == r.id).name;
@@ -133,7 +133,7 @@ exports.run = async (client, interaction) => {
         const channelId = /<(#[0-9])\w+>/g
         let cleanDesc = ""
 
-        if (r.description.search(channelId != -1)) {
+        if (r.description.search(channelId) != -1) {
           const clean = r.description.match(channelId)[0]
           cleanDesc = r.description.replace(clean, interaction.channel.guild.channels.find((c) => c.id == clean.replace(/<|#|>/g, "")).name)
         }
@@ -151,22 +151,22 @@ exports.run = async (client, interaction) => {
         });
       });
 
-      client.createMessage(interaction.channel.id, {
-        embed: {
+      interaction.channel.createMessage({
+        embeds: [{
           title: "Select your roles below!",
           color: 0x206694,
           fields: fields,
-        },
+        }],
         components: [
           {
             type: 1,
             components: [
               {
                 type: 3,
-                custom_id: "reactionRoles",
+                customID: "reactionRoles",
                 placeholder: "selected roles",
-                min_values: 0,
-                max_values: role_options.length,
+                minValues: 0,
+                maxValues: role_options.length,
                 options: role_options,
               },
             ],
@@ -176,11 +176,11 @@ exports.run = async (client, interaction) => {
 
       interaction.createMessage({
         flags: 64,
-        embed: {
+        embeds: [{
           title: "success!",
           description: `created role selection prompt!`,
           color: 0x57f287,
-        },
+        }],
       });
 
       break;
@@ -193,11 +193,11 @@ exports.run = async (client, interaction) => {
 
       interaction.createMessage({
         flags: 64,
-        embed: {
+        embeds: [{
           title: "success!",
           description: `deleted reaction roles data... ✅`,
           color: 0x57f287,
-        },
+        }],
       });
 
       break;

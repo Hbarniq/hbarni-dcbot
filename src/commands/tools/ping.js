@@ -1,34 +1,35 @@
-exports.id = "1048593160886030385"
+exports.id = "1048593160886030385";
 exports.command = {
   name: "ping", // the command name, max 32 characters
   description: "Pong!", // the command description, max 100 characters
   // options: [], // options you can provide (Array<Object>): https://discord.com/developers/docs/interactions/application-commands#application-command-object-application-command-option-structure
   type: 1, // 1 for slash command, 2 for user, and 3 for message
   defaultPermission: true, // whether the command is enabled by default when the app is added to a guild
-  //default_member_permissions: 0x8 - permissions => https://discord.com/developers/docs/topics/permissions#permissions-bitwise-permission-flags
+  //defaultMemberPermissions: 0x8 - permissions => https://discord.com/developers/docs/topics/permissions#permissions-bitwise-permission-flags
 };
 exports.run = async (client, interaction) => {
-  const msg = Date.now()
-  await interaction.createMessage({embed: {
-    fields: [
-      {
-        name: "Pong! 🏓",
-        value: `getting ping...`,
-      },
-    ],
-    color: 0x5865f2 //Blurple
-  }})
-  
-  interaction.editMessage("@original", {
-    embed: {
+  const msg = Date.now();
+  await interaction.createMessage({
+    embeds: [{
+      fields: [
+        {
+          name: "Pong! 🏓",
+          value: `getting ping...`,
+        },
+      ],
+      color: 0x5865f2, //Blurple
+    }],
+  });
+
+  interaction.editOriginal({
+    embeds: [{
       fields: [
         {
           name: "Pong! 🏓",
           value: `Ping is: ${Date.now() - msg - 200} ms`,
         },
       ],
-      color: 0x5865f2
-    },
-
+      color: 0x5865f2,
+    }],
   });
 };

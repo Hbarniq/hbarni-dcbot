@@ -37,13 +37,12 @@ exports.command = {
   ],
   type: 1,
   defaultPermission: true,
-  default_member_permissions: BigInt(1 << 4),
+  defaultMemberPermissions: BigInt(1 << 4),
 };
 exports.run = async (client, interaction) => {
-  await interaction.defer(64);
-  const action = interaction.data.options.find((o) => o.name == "action").value || undefined;
-  const guildId = interaction.data.options.find((o) => o.name == "server_id").value || undefined;
-  const channelId = interaction.data.options.find((o) => o.name == "channel_id").value || undefined;
+  const action = interaction.data.options.getString("action")
+  const guildId = interaction.data.options.getString("server_id")
+  const channelId = interaction.data.options.getString("channel_id")
   const guildProfile = await guild.findOne({
     guildId: interaction.channel.guild.id,
   });
@@ -67,16 +66,16 @@ exports.run = async (client, interaction) => {
       if (guildProfile.bridges && otherProfile.bridges) {
       if (guildProfile.bridges.find((b) => b.id == interaction.channel.id) != undefined || otherProfile.bridges.find((b) => b.bridgedWith.channelId == interaction.channel.id) != undefined) {
         return error("Cant bridge multiple channels to one", interaction)
+        }
       }
-    }
-
-
-      await client.createMessage(channelId, {
-        embed: {
+      await client.guilds.find((g) => g.id == guildId).channels.find((c) => c.id == channelId)
+      .createMessage({
+        flags: 64,
+        embeds: [{
           title: "Bridge request!",
           description: `This channel got a bridge request from **${interaction.channel.guild.name}**\nIf accepted this will connect this channel with <#${interaction.channel.id}>`,
           color: 0x206694,
-        },
+        }],
         components: [
           {
             type: 1,
@@ -85,17 +84,20 @@ exports.run = async (client, interaction) => {
                 type: 2,
                 label: "accept",
                 style: 3,
-                custom_id: "bridge_accept",
+                customID: "bridge_accept",
               },
               {
                 type: 2,
                 label: "decline",
                 style: 4,
-                custom_id: "bridge_decline",
+                customID: "bridge_decline",
               },
             ],
           },
         ],
+      }).catch(err => {
+        console.log(err)
+        return error("Failed to send bridge request.. make sure the ids are correct", interaction)
       });
 
       const sentToProfile = await guild.findOne({
@@ -133,13 +135,14 @@ exports.run = async (client, interaction) => {
             return error("There are no bridges set for this channel", interaction)
         }
 
-        await client.createMessage(otherProfile.bridges.find((b) => b.bridgedWith.channelId == interaction.channel.id).id, {
-            embed: {
-                title: "warning!",
-                description: `Bridge disconnected by: <@${interaction.member.id}>`,
-                color: 0xe67e22
-            }
-        })
+        await client.guilds.find((g) => g.id == guildId).channels.find((c) => c.id == guildProfile.bridges.find((b) => b.bridgedWith.guildId == guildId).bridgedWith.channelId)
+        .createMessage({
+          embeds: [{
+              title: "warning!",
+              description: `Bridge disconnected by: <@${interaction.member.id}>`,
+              color: 0xe67e22
+          }]
+      })
 
         const toRemove = otherProfile.bridges.find((b) => b.bridgedWith.channelId == interaction.channel.id).id
         await guildProfile.updateOne({ $pull: { bridges: { id: interaction.channel.id }}})

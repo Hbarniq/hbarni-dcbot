@@ -1,5 +1,4 @@
 const { readdirSync } = require("fs");
-
 module.exports = (client) => {
   client.handleComponents = async () => {
     const componentFolders = readdirSync(`./src/components`);

@@ -13,14 +13,14 @@ exports.command = {
 exports.run = async (client, interaction) => {
     await interaction.defer(64)
     checks = ["dumb", "buzi", "fulladj", "fuck", "kurva", "anyád", "baszódj", "gay", "fasz", "kibebaszott", "kibaszott", "boti egy", "szar", "ez a bot", "this bot", "dick", "cock" ,"swer", "ass", "cunt", "f@sz", "seiße", "i have", "i am", "készítőm", "creator", "@everyone", "@here", "cigány", "kuki", "kugi", "anal", "poop", "kill yourself", "nigger", "nigga"]
-    let saymsg = interaction.data.options[0].value //holy fuck why
-    if (!saymsg.match("^[a-zA-Z0-9_><@#áűúőöüóé ]*$")) {interaction.createMessage("You can't use special characters"); return;}
+    let saymsg = interaction.data.options.raw[0].value
+    if (!saymsg.match("^[a-zA-Z0-9_><@#áűúőöüóé ]*$")) {interaction.createMessage({ content: "You can't use special characters" }); return;}
     if (saymsg.length >= 100 | checks.some(v => saymsg.includes(v))) {
-      interaction.deleteMessage("@original");
-      interaction.channel.createMessage(`${interaction.member.mention} no :)`)
+      interaction.deleteOriginal();
+      interaction.channel.createMessage({ content: `${interaction.member.mention} no :)`})
       return;
     }
-    interaction.deleteMessage("@original")
+    interaction.deleteOriginal()
     interaction.channel.createMessage({
       content: `${saymsg}`
     })

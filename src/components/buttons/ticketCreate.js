@@ -16,45 +16,36 @@ module.exports = {
     if (hasTicket) {
       return interaction.createMessage({
         flags: 64,
-        embed: {
+        embeds: [{
           title: "oops.. something went wrong",
           description:
             "You have already created a ticket, close it before creating a new one",
           color: 0xed4245,
-        },
+        }],
       });
     }
-    await axios({
-      method: "POST",
-      url: `https://discord.com/api/interactions/${interaction.id}/${interaction.token}/callback`,
-      headers: {
-        Authorization: `Bot ${client.token}`,
-      },
-      data: {
-        type: 9, //modal type
-        data: {
-          title: "Create a ticket!",
-          custom_id: "ticketModal",
+
+    interaction.createModal({
+      title: "Create a ticket!",
+      customID: "ticketModal",
+      components: [
+        {
+          type: 1, //actionRowBuilder
           components: [
             {
-              type: 1, //actionRowBuilder
-              components: [
-                {
-                  type: 4, //modal text input
-                  custom_id: "ticketReasonInput",
-                  label: "Why are you opening a ticket?",
-                  placeholder:
-                    'help the modpack doesnt want to start and it says "Error code: 69420" here is my latest.log',
-                  style: 2, // paragraph
-                  min_length: 1,
-                  max_length: 2000,
-                  required: true,
-                },
-              ],
+              type: 4, //modal text input
+              customID: "ticketReasonInput",
+              label: "Why are you opening a ticket?",
+              placeholder:
+                'help the modpack doesnt want to start and it says "Error code: 69420" here is my latest.log',
+              style: 2, // paragraph
+              minLength: 1,
+              maxLength: 2000,
+              required: true,
             },
           ],
         },
-      },
-    });
+      ],
+    },)
   },
 };

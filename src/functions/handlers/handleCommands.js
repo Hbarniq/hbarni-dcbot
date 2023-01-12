@@ -17,20 +17,18 @@ module.exports = (client) => {
       }
     }
 
+    await client.once("ready", async() => {
     const guildId = "652150784879886367";
     if (process.env.release == "true") {
       //globally sets (/) commands
-      await client.bulkEditCommands(client.slashCommands).catch((e) => {
+      await client.rest.applicationCommands.bulkEditGlobalCommands(client.user.id, client.slashCommands).catch((e) => {
         throw new Error(e);
       });
       console.log("Successfully refreshed (/) commands");
     } else {
       //locally sets (/) commands results in duplicates on test server
-      await client
-        .bulkEditGuildCommands(guildId, client.slashCommands)
-        .catch((e) => {
-          throw new Error(e);
-        });
+      await client.rest.applicationCommands.bulkEditGuildCommands(client.user.id, guildId, client.slashCommands)
+      .catch((e) => {throw new Error(e);});
       console.log("Successfully refreshed (/) commands Locally");
       if (process.env.globaldisable == "true") {
         await client.bulkEditCommands([]).catch((e) => {
@@ -39,5 +37,5 @@ module.exports = (client) => {
         console.log("commands are disabled globally");
       }
     }
-  };
+  })};
 };

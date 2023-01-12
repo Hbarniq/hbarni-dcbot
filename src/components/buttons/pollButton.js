@@ -6,8 +6,7 @@ module.exports = {
       name: "pollButton",
     },
     async run(client, interaction) {
-        await interaction.defer(64)
-        const id = interaction.data.custom_id
+        const id = interaction.data.customID
         const guildProfile = await guild.findOne({
             guildId: interaction.channel.guild.id,
         });

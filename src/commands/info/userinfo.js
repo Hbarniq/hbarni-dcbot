@@ -27,12 +27,11 @@ exports.command = {
   defaultPermission: true,
 };
 exports.run = async (client, interaction) => {
-  await interaction.defer();
   const guild = interaction.channel.guild;
-  const target = guild.members.get(interaction.data.options[0].value);
-  const category = !interaction.data.options[1]
+  const target = guild.members.get(interaction.data.options.raw[0].value);
+  const category = !interaction.data.options.raw[1]
     ? "all"
-    : interaction.data.options[1].value;
+    : interaction.data.options.raw[1].value;
 
   let discordTimestamp = target.createdAt / 1000;
   discordTimestamp = Math.floor(discordTimestamp);
@@ -42,7 +41,7 @@ exports.run = async (client, interaction) => {
 
   const footer = {
     text: `${client.user.username} - userinfo`,
-    icon_url: `${client.user.dynamicAvatarURL("png", 128)}`,
+    iconURL: `${client.user.avatarURL("png", 128)}`,
   };
 
   if (category == "all") {
@@ -75,10 +74,10 @@ exports.run = async (client, interaction) => {
       statuses = "all platforms: offline/invisible";
     }
     interaction.createMessage({
-      embed: {
+      embeds: [{
         title: `${target.username}'s userinfo ${target.bot == true ? "🤖" : ""}`,
         thumbnail: {
-          url: `${target.user.dynamicAvatarURL(
+          url: `${target.user.avatarURL(
             guild.icon.startsWith("a_") ? "gif" : "png",
             128
           )}`,
@@ -100,25 +99,25 @@ exports.run = async (client, interaction) => {
           .replace(" | @everyone", "")}
         `,
         footer: footer,
-      },
+      }],
     });
   } else if (category == "avatar") {
     interaction.createMessage({
-      embed: {
+      embeds: [{
         title: `${target.username}'s avatar`,
         image: {
-          url: `${target.user.dynamicAvatarURL(
+          url: `${target.user.avatarURL(
             guild.icon.startsWith("a_") ? "gif" : "png",
             128
           )}`,
         },
         color: 0x5865f2,
         footer: footer,
-      },
+      }],
     });
   } else if (category == "id") {
     interaction.createMessage({
-      embed: {
+      embeds: [{
         color: 0x5865f2,
         fields: [
           {
@@ -127,11 +126,11 @@ exports.run = async (client, interaction) => {
           },
         ],
         footer: footer,
-      },
+      }],
     });
   } else if (category == "joined") {
     interaction.createMessage({
-      embed: {
+      embeds: [{
         color: 0x5865f2,
         fields: [
           {
@@ -144,7 +143,7 @@ exports.run = async (client, interaction) => {
           },
         ],
         footer: footer,
-      },
+      }],
     });
   }
 };

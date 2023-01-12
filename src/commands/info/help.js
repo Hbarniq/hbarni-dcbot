@@ -18,7 +18,7 @@ exports.run = async (client, interaction) => {
 
   interaction.createMessage({
     flags: 64,
-    embed: {
+    embeds: [{
       title: "A list of all commands:",
       description:
         "I will probably make this more detailed \nand look nicer and have tabs and all that stuff :)\nright now it dynamicly updates with each command",
@@ -26,8 +26,8 @@ exports.run = async (client, interaction) => {
       fields: commands,
       footer: {
         text: `Hbarni bot - help`,
-        icon_url: `${client.user.dynamicAvatarURL("png", 128)}`,
+        iconURL: `${client.user.avatarURL("png", 128)}`,
       },
-    },
+    }],
   });
 };

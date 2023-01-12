@@ -1,14 +1,14 @@
 {
-  "name": "hbarnibot-eris",
+  "name": "hbarnibot",
   "version": "2.1.7",
   "main": "src/index.js",
   "dependencies": {
     "@napi-rs/canvas": "^0.1.30",
     "axios": "^1.2.0",
     "dotenv": "^16.0.3",
-    "eris": "^0.17.1",
     "minecraft-server-util": "^5.3.1",
-    "mongoose": "^6.8.0"
+    "mongoose": "^6.8.0",
+    "oceanic.js": "^1.4.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -16,5 +16,5 @@
   "keywords": [],
   "author": "Hbarni",
   "license": "ISC",
-  "description": "A personal discord bot made by Hbarni with the Eris library"
+  "description": "A personal discord bot made by Hbarni with the Oceanic.js library"
 }

@@ -7,14 +7,14 @@ module.exports = {
     },
     async run(client, interaction) {
         await interaction.defer(64)
-        const id = interaction.data.custom_id
+        const id = interaction.data.customID
         const guildProfile = await guild.findOne({
             guildId: interaction.channel.guild.id,
         });
         const recievedFromProfile = await guild.findOne({
             guildId: guildProfile.bridges.find((b) => b.id == interaction.channel.id).bridgedWith.guildId
         })
-        const recievedFromChannel = recievedFromProfile.bridges.find((b) => b.bridgedWith.channelId == interaction.channel.id)
+        const recievedFromChannel = await client.rest.channels.get(guildProfile.bridges.find((b) => b.id == interaction.channel.id).bridgedWith.channelId)
 
         if (!interaction.member.permissions.has(BigInt(1 << 4))) {
             return error("You dont have permissions to accept/decline a bridge request")
@@ -26,20 +26,20 @@ module.exports = {
                 recievedFromProfile.bridges.find((b) => b.bridgedWith.channelId == interaction.channel.id).pending = false
                 await guildProfile.save().catch()
                 await recievedFromProfile.save().catch()
-                client.createMessage(recievedFromChannel.id, {
-                    embed: {
+                recievedFromChannel.createMessage({
+                    embeds: [{
                         title: "success!",
                         description: `This channel has been bridged with <#${interaction.channel.id}>`,
                         color: 0x57f287,
-                      },
+                      }],
                 })
                 success(`Bridged with <#${recievedFromChannel.id}>`, interaction)
                 interaction.message.edit({
-                    embed: {
+                    embeds: [{
                         title: "bridged channels!",
                         description: `successfully paired with <#${recievedFromChannel.id}>`,
                         color: 0x57f287,
-                    },
+                    }],
                     components: []
                 })
                 break;
@@ -47,20 +47,20 @@ module.exports = {
             case "bridge_decline":
                 await guildProfile.updateOne({ $pull: { bridges: { id: interaction.channel.id }}})
                 await recievedFromProfile.updateOne({ $pull: { bridges: { id: recievedFromChannel.id }}})
-                client.createMessage(recievedFromChannel.id, {
-                    embed: {
+                recievedFromChannel.createMessage({
+                    embeds: [{
                         title: "warning!",
                         description: `Bridge request declined..`,
                         color: 0xe67e22
-                    }
+                    }]
                 })
                 success("Bridge request declined", interaction)
                 interaction.message.edit({
-                    embed: {
+                    embeds: [{
                         title: "declined bridge request!",
                         description: `successfully declined pairing with <#${recievedFromChannel.id}>`,
                         color: 0x57f287,
-                    },
+                    }],
                     components: []
                 })
                 break;

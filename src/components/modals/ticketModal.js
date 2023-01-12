@@ -4,22 +4,24 @@ module.exports = {
     name: "ticketModal",
   },
   async run(client, interaction) {
-    await interaction.defer(64);
     const guildProfile = await guild.findOne({ guildId: interaction.channel.guild.id })
-    const reason = (interaction.data.custom_id = "ticketReasonInput"
+    const reason = (interaction.data.customID = "ticketReasonInput"
       ? interaction.data.components[0].components[0].value
       : "reason not given");
-    const thread = await interaction.channel.createThreadWithoutMessage({
+
+    const thread = await interaction.channel.startThreadWithoutMessage({
       name: `${interaction.member.username}'s ticket`,
       autoArchiveDuration: 60,
       invitable: true,
       type: 12, //private thread https://discord.com/developers/docs/resources/channel#channel-object-channel-types
     });
+
     interaction.createMessage({
-      embed: {
+      flags: 64,
+      embeds: [{
         description: `**Success** 🎫\nYour ticket has been created\nhere it is: <#${thread.id}>`,
         color: 0x57f287,
-      },
+      }],
     });
     thread.createMessage({
       embeds: [
@@ -44,7 +46,7 @@ module.exports = {
               type: 2,
               label: "close",
               style: 2,
-              custom_id: "ticketClose",
+              customID: "ticketClose",
               emoji: {
                 id: null,
                 name: "🔒",
@@ -54,7 +56,7 @@ module.exports = {
         },
       ],
     });
-    client.joinThread(thread.id, interaction.member.id)
+    client.rest.channels.addThreadMember(thread.id, interaction.member.id)
     guildProfile.tickets.push({
       thread: thread.id,
       creator: interaction.member.id

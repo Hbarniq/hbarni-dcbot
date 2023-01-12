@@ -25,7 +25,7 @@ exports.command = {
       type: 3,
       name: "options",
       description: "example: title | description",
-      max_length: 200,
+      maxLength: 200,
     },
     {
       type: 3,
@@ -55,15 +55,15 @@ exports.command = {
   ],
   type: 1,
   defaultPermission: true,
-  default_member_permissions: BigInt(1 << 13),
+  defaultMemberPermissions: BigInt(1 << 13),
 };
 exports.run = async (client, interaction) => {
   await interaction.defer(64);
-  const action = interaction.data.options.find((o) => o.name == "action").value;
-  const options = interaction.data.options.find((o) => o.name == "options");
-  const choices = interaction.data.options.find((o) => o.name == "choices");
-  let type = interaction.data.options.find((o) => o.name == "type");
-  const poll_id = interaction.data.options.find((o) => o.name == "id");
+  const action = interaction.data.options.raw.find((o) => o.name == "action").value;
+  const options = interaction.data.options.raw.find((o) => o.name == "options");
+  const choices = interaction.data.options.raw.find((o) => o.name == "choices");
+  let type = interaction.data.options.raw.find((o) => o.name == "type");
+  const poll_id = interaction.data.options.raw.find((o) => o.name == "id");
   const guildProfile = await guild.findOne({
     guildId: interaction.channel.guild.id,
   });
@@ -105,7 +105,7 @@ exports.run = async (client, interaction) => {
 
             const button = {
               type: 2,
-              custom_id: emojis[i],
+              customID: emojis[i],
               emoji: {
                 id: null,
                 name: emojis[i],
@@ -129,20 +129,20 @@ exports.run = async (client, interaction) => {
             });
           }
 
-          const msg = await client.createMessage(interaction.channel.id, {
-            embed: {
+          const msg = await interaction.channel.createMessage({
+            embeds: [{
               title: `📊 ${sepOptions[0]}`,
               description: sepOptions[1] || "No description",
               color: 0x206694,
               footer: {
                 text: `Waiting for poll_ID...`,
               },
-            },
+            }],
             components: rows,
           });
 
-          await client.editMessage(interaction.channel.id, msg.id, {
-            embed: {
+          await interaction.channel.editMessage(msg.id, {
+            embeds: [{
               title: `📊 ${sepOptions[0]}`,
               description: `${
                 sepOptions[1] || "No description"
@@ -151,7 +151,7 @@ exports.run = async (client, interaction) => {
               footer: {
                 text: `poll_ID: ${msg.id}`,
               },
-            },
+            }],
           });
 
           guildProfile.polls.push({
@@ -174,19 +174,19 @@ exports.run = async (client, interaction) => {
             description += `\n${_emoji[i]} ${sepChoices[i]}\n`;
           }
 
-          const simpleMsg = await client.createMessage(interaction.channel.id, {
-            embed: {
+          const simpleMsg = await interaction.channel.createMessage({
+            embeds: [{
               title: `📊 ${sepOptions[0]}`,
               description: `${
                 sepOptions[1] || "No description"
               } \n${description}`,
               color: 0x206694,
-            },
+            }],
           });
 
           
           for (let i = 0; i < sepChoices.length; i++) {
-            await simpleMsg.addReaction(_emoji[i]);
+            await simpleMsg.createReaction(_emoji[i]);
           }
           
           success("created poll!", interaction);
@@ -217,14 +217,14 @@ exports.run = async (client, interaction) => {
         (p) => (end_values += `\n${p.id}: ${p.name}\nhad: ${p.votes} votes\n`)
       );
 
-      client.editMessage(interaction.channel.id, poll_id.value, {
-        embed: {
+      interaction.channel.editMessage(poll_id.value, {
+        embeds: [{
           title: `📊 ${poll.data.title} - ended.`,
           description: `${poll.data.description} \n${end_values}`,
           color: 0x206694,
           footer: { text: `concluded` },
           timestamp: new Date().toISOString(),
-        },
+        }],
         components: [],
       });
 

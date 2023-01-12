@@ -22,7 +22,7 @@ module.exports = {
       description: embedDescription,
       author: {
         name: `${interaction.member.username}`,
-        icon_url: `${interaction.member.user.dynamicAvatarURL(
+        iconURL: `${interaction.member.user.avatarURL(
           interaction.member.user.avatar.startsWith("a_") ? "gif" : "png",
           128)}`,
         url: `https://discord.com/users/${interaction.member.id}`
@@ -47,7 +47,7 @@ module.exports = {
     }
 
     interaction.createMessage({
-      embed: embed,
+      embeds: [embed],
     });
   },
 };

@@ -8,12 +8,12 @@ module.exports = {
     let poll = guildProfile.polls.find((p) => p.id == message.id)
     if (poll != undefined) {
         await guildProfile.updateOne({ $pull: { polls: { id: poll.id } } });
-        client.createMessage(message.channel.id, {
-            embed: {
+        message.channel.createMessage({
+            embeds: [{
                 title: "warning!",
                 description: `Poll: \`${message.id}\` has been deleted, poll data erased!`,
                 color: 0xe67e22
-            }
+            }]
         })
     }
   },

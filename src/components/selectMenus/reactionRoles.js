@@ -5,7 +5,7 @@ module.exports = {
   },
   async run(client, interaction) {
     await interaction.defer(64)
-    const selected = interaction.data.values;
+    const selected = interaction.data.values.raw;
     const member = interaction.member;
     const guildProfile = await guild.findOne({
       guildId: interaction.channel.guild.id,
@@ -34,13 +34,13 @@ module.exports = {
       }
     }
 
-    interaction.createMessage({
+    interaction.createFollowup({
         flags: 64,
-        embed: {
+        embeds: [{
           title: "success!",
           description: `Your roles have been updated`,
           color: 0x57f287,
-        },
+        }],
     })
   },
 };

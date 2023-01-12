@@ -8,7 +8,7 @@ exports.command = {
       type: 7,
       name: "channel",
       description: "the channel for welcome messages",
-      channel_types: [0, 5],
+      channelTypes: [0, 5],
       required: true,
     },
     {
@@ -20,55 +20,53 @@ exports.command = {
   ],
   type: 1,
   defaultPermission: true,
-  default_member_permissions: BigInt(1 << 3),
+  defaultMemberPermissions: BigInt(1 << 3),
 };
 exports.run = async (client, interaction) => {
-  await interaction.defer(64);
+  await interaction.defer(64)
   let guildProfile = await guild.findOne({
     guildId: interaction.channel.guild.id,
   });
-  const disable = interaction.data.options.find((o) => o.name == "disable");
+  const disable = interaction.data.options.raw.find((o) => o.name == "disable");
   if (disable != undefined && disable.value && guildProfile.welcome.using) {
     guildProfile.welcome = undefined;
     await guildProfile.save().catch();
-    return interaction.createMessage({
+    return interaction.createFollowup({
       flags: 64,
-      embed: {
+      embeds: [{
         title: "settings updated!",
         description: "successfully disabled welcome messages",
         color: 0x57f287,
-      },
+      }],
     });
   } else if (
     disable != undefined &&
     disable.value &&
     !guildProfile.welcome.using
   ) {
-    return await interaction.createMessage({
+    return await interaction.createFollowup({
       flags: 64,
-      embed: {
+      embeds: [{
         title: "oops... something went wrong",
         description:
           "You aren't using welcome messages.. only use the disable option if you have them enabled and you want to disable them",
         color: 0xed4245,
-      },
+      }],
     });
   }
 
   await guildProfile.updateOne({
     welcome: {
       using: true,
-      welcomeChannel: interaction.data.options[0].value,
+      welcomeChannel: interaction.data.options.raw[0].value,
     },
   });
 
-  await guildProfile.save().catch(console.error);
-
-  interaction.createMessage({
-    embed: {
+  interaction.createFollowup({
+    embeds: [{
       title: "success!",
-      description: `welcome messages will start appearing in <#${interaction.data.options[0].value}> ✅`,
+      description: `welcome messages will start appearing in <#${interaction.data.options.raw[0].value}> ✅`,
       color: 0x57f287,
-    },
+    }],
   });
 };
