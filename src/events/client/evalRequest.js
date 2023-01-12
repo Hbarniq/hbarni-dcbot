@@ -21,7 +21,7 @@ module.exports = {
                 }
                 
                 res = JSON.stringify(res);
-                res = res.replace(new RegExp(/(^Bot\s.{24}\..{6}\..{26})\w+/g), "Token-hidden")
+                res = res.replace(/(.{24}\..{6}\..{26})\w+/g, "Token-hidden")
                 
             }
           } catch (err) {
