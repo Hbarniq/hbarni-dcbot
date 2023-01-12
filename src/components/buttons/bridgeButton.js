@@ -1,3 +1,4 @@
+const { Colors } = require("../../extra/colors");
 const { error, success } = require("../../extra/replyFunc");
 const guild = require("../../schemas/guild")
 
@@ -30,7 +31,7 @@ module.exports = {
                     embeds: [{
                         title: "success!",
                         description: `This channel has been bridged with <#${interaction.channel.id}>`,
-                        color: 0x57f287,
+                        color: Colors.Success,
                       }],
                 })
                 success(`Bridged with <#${recievedFromChannel.id}>`, interaction)
@@ -38,7 +39,7 @@ module.exports = {
                     embeds: [{
                         title: "bridged channels!",
                         description: `successfully paired with <#${recievedFromChannel.id}>`,
-                        color: 0x57f287,
+                        color: Colors.Success,
                     }],
                     components: []
                 })
@@ -51,7 +52,7 @@ module.exports = {
                     embeds: [{
                         title: "warning!",
                         description: `Bridge request declined..`,
-                        color: 0xe67e22
+                        color: Colors.Warning
                     }]
                 })
                 success("Bridge request declined", interaction)
@@ -59,7 +60,7 @@ module.exports = {
                     embeds: [{
                         title: "declined bridge request!",
                         description: `successfully declined pairing with <#${recievedFromChannel.id}>`,
-                        color: 0x57f287,
+                        color: Colors.Success,
                     }],
                     components: []
                 })

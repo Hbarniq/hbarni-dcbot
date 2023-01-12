@@ -1,3 +1,4 @@
+const { Colors } = require("../../extra/colors");
 const { error, success } = require("../../extra/replyFunc");
 const guild = require("../../schemas/guild");
 exports.id = "1048593160886030385";
@@ -133,7 +134,7 @@ exports.run = async (client, interaction) => {
             embeds: [{
               title: `📊 ${sepOptions[0]}`,
               description: sepOptions[1] || "No description",
-              color: 0x206694,
+              color: Colors.Neutral,
               footer: {
                 text: `Waiting for poll_ID...`,
               },
@@ -147,7 +148,7 @@ exports.run = async (client, interaction) => {
               description: `${
                 sepOptions[1] || "No description"
               } \n${description}`,
-              color: 0x206694,
+              color: Colors.Neutral,
               footer: {
                 text: `poll_ID: ${msg.id}`,
               },
@@ -180,7 +181,7 @@ exports.run = async (client, interaction) => {
               description: `${
                 sepOptions[1] || "No description"
               } \n${description}`,
-              color: 0x206694,
+              color: Colors.Neutral,
             }],
           });
 
@@ -221,7 +222,7 @@ exports.run = async (client, interaction) => {
         embeds: [{
           title: `📊 ${poll.data.title} - ended.`,
           description: `${poll.data.description} \n${end_values}`,
-          color: 0x206694,
+          color: Colors.Neutral,
           footer: { text: `concluded` },
           timestamp: new Date().toISOString(),
         }],

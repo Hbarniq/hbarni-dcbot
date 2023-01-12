@@ -1,3 +1,4 @@
+const { Colors } = require("../../extra/colors");
 const { error, success } = require("../../extra/replyFunc");
 const guild = require("../../schemas/guild");
 exports.id = "1048593160886030383";
@@ -46,7 +47,7 @@ exports.run = async (client, interaction) => {
       embeds: [{
         title: "settings updated!",
         description: "successfully disabled verification",
-        color: 0x57f287,
+        color: Colors.Success,
       }],
     });
   } else if (disable != undefined &&disable.value &&!guildProfile.verification.using) { 
@@ -76,7 +77,7 @@ exports.run = async (client, interaction) => {
       image: {
         url: "https://cdn.discordapp.com/attachments/1050691362128924743/1050692966013992970/verify.png",
       },
-      color: 0x57f287,
+      color: Colors.Success,
     }],
     components: [
       {

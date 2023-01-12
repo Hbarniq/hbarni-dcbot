@@ -1,3 +1,5 @@
+const { Colors } = require("../../extra/colors");
+
 module.exports = {
   data: {
     name: "infoMenu",
@@ -10,7 +12,7 @@ module.exports = {
         flags: 64,
         embed: {
           title: "rules",
-          color: 0x5865f2,
+          color: Colors.Neutral,
           description:
             "there isnt too many of these i just have to make a rules channel",
           fields: [
@@ -42,7 +44,7 @@ module.exports = {
           title: "general info / FAQ",
           description:
             "there is a couple of other things that you should know next to the rules, also this is kind of a **faq**",
-          color: 0x5865f2,
+          color: Colors.Neutral,
           fields: [
             {
               name: "how do I install the modpack?",
@@ -74,7 +76,7 @@ module.exports = {
           title: "Install modpack",
           description:
             '**installer download**\nthere is an installer for this modpack, download it from here:\nhere is the [ahms only version](https://github.com/Hbarniq/HB-mci/releases/latest/download/ahms_mcinstall.exe)\n\n> https://github.com/Hbarniq/HB-mci/releases/latest\n\nthis also serves as an updater for the modpack so **keep it in your install directory** after using it',
-          color: 0x5865f2,
+          color: Colors.Neutral,
           fields: [
             {
               name: "using the installer",  
@@ -97,7 +99,7 @@ module.exports = {
         flags: 64,
         embed: {
           title: "making custom things",
-          color: 0x5865f2,
+          color: Colors.Neutral,
           fields: [
             {
               name: "creating emotes",

@@ -1,3 +1,5 @@
+const { Colors } = require("../../extra/colors");
+
 exports.id = "1048593160886030382"
 exports.command = {
   name: "tickets",
@@ -21,7 +23,7 @@ exports.run = async (client, interaction) => {
   let embed = {
     title: "Support ticket",
     description: "To create a ticket react with 🎫",
-    color: 0x5865f2,
+    color: Colors.Neutral,
     footer: {
       text: "Hbarni bot - tickets",
       iconURL:

@@ -1,3 +1,4 @@
+const { Colors } = require("../../extra/colors");
 const guild = require("../../schemas/guild");
 exports.id = "1048593160886030377";
 exports.command = {
@@ -15,14 +16,13 @@ exports.run = async (client, interaction) => {
       value: `<:reply:1048598919258587196>${c.command.description}`,
     });
   });
-
   interaction.createMessage({
     flags: 64,
     embeds: [{
       title: "A list of all commands:",
       description:
         "I will probably make this more detailed \nand look nicer and have tabs and all that stuff :)\nright now it dynamicly updates with each command",
-      color: 0x5865f2,
+      color: Colors.Neutral,
       fields: commands,
       footer: {
         text: `Hbarni bot - help`,

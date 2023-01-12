@@ -1,5 +1,6 @@
 const guild = require("../../schemas/guild");
 const { error, success } = require("../../extra/replyFunc");
+const { Colors } = require("../../extra/colors");
 exports.id = "1048593160886030381";
 exports.command = {
   name: "bridge",
@@ -74,7 +75,7 @@ exports.run = async (client, interaction) => {
         embeds: [{
           title: "Bridge request!",
           description: `This channel got a bridge request from **${interaction.channel.guild.name}**\nIf accepted this will connect this channel with <#${interaction.channel.id}>`,
-          color: 0x206694,
+          color: Colors.Neutral,
         }],
         components: [
           {
@@ -140,7 +141,7 @@ exports.run = async (client, interaction) => {
           embeds: [{
               title: "warning!",
               description: `Bridge disconnected by: <@${interaction.member.id}>`,
-              color: 0xe67e22
+              color: Colors.Warning
           }]
       })
 

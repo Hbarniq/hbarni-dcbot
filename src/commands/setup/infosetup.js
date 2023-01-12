@@ -1,3 +1,5 @@
+const { Colors } = require("../../extra/colors");
+
 exports.id = "1048593160886030381";
 exports.command = {
   name: "infosetup",
@@ -16,7 +18,7 @@ exports.run = async (client, interaction) => {
       image: {
         url: "https://cdn.discordapp.com/attachments/1050691362128924743/1050692389892796437/info.png",
       },
-      color: 0x5865f2,
+      color: Colors.Neutral,
     }],
     components: [
       {

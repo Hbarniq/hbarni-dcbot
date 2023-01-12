@@ -1,3 +1,5 @@
+const { Colors } = require("../../extra/colors");
+
 exports.id = "1048593160886030385";
 exports.command = {
   name: "ping", // the command name, max 32 characters
@@ -17,7 +19,7 @@ exports.run = async (client, interaction) => {
           value: `getting ping...`,
         },
       ],
-      color: 0x5865f2, //Blurple
+      color: Colors.Neutral, //Blurple
     }],
   });
 
@@ -29,7 +31,7 @@ exports.run = async (client, interaction) => {
           value: `Ping is: ${Date.now() - msg - 200} ms`,
         },
       ],
-      color: 0x5865f2,
+      color: Colors.Neutral,
     }],
   });
 };

@@ -1,3 +1,4 @@
+const { Colors } = require("../../extra/colors");
 const guild = require("../../schemas/guild");
 module.exports = {
   name: "messageDelete",
@@ -12,7 +13,7 @@ module.exports = {
             embeds: [{
                 title: "warning!",
                 description: `Poll: \`${message.id}\` has been deleted, poll data erased!`,
-                color: 0xe67e22
+                color: Colors.Warning
             }]
         })
     }

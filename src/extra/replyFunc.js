@@ -1,8 +1,10 @@
+const { Colors } = require("./colors");
+
 exports.error = async (msg, interaction) => {
   const errEmbed = [{
     title: "oops... something went wrong",
     description: msg,
-    color: 0xed4245,
+    color: Colors.Error,
   }]
 
   if (!interaction.acknowledged) {
@@ -13,7 +15,7 @@ exports.success = async (msg, interaction) => {
   const successEmbed = [{
     title: "success!",
     description: msg,
-    color: 0x57f287,
+    color: Colors.Success,
   }]
 
   if (!interaction.acknowledged) {

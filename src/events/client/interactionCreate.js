@@ -1,4 +1,5 @@
-const Oceanic = require("oceanic.js")
+const Oceanic = require("oceanic.js");
+const { Colors } = require("../../extra/colors");
 const { error } = require("../../extra/replyFunc");
 module.exports = {
     name: "interactionCreate",
@@ -18,7 +19,7 @@ module.exports = {
         await interaction.createMessage({
             embed: {
                 title: "There was an error executing that command!",
-                color: 0xed4245,
+                color: Colors.Error,
                 description: `
                 you should probably tell me: <@419838142510530572>
                 \`\`\`yml\n${
@@ -52,7 +53,7 @@ module.exports = {
             await interaction.createMessage({
                 embed: {
                     title: "Somehow I was unable to press that button right!",
-                    color: 0xed4245,
+                    color: Colors.Error,
                     description: `
                     you should probably tell me: <@419838142510530572>
                     \`\`\`yml\n${
@@ -75,7 +76,7 @@ module.exports = {
             await interaction.createMessage({
                 embed: {
                     title: "I couldnt show you the result of that selection!",
-                    color: 0xed4245,
+                    color: Colors.Error,
                     description: `
                     you should probably tell me: <@419838142510530572>
                     \`\`\`yml\n${
@@ -98,7 +99,7 @@ module.exports = {
         await interaction.createMessage({
             embed: {
                 title: "There was an error showing you that modal!",
-                color: 0xed4245,
+                color: Colors.Error,
                 description: `
                 you should probably tell me: <@419838142510530572>
                 \`\`\`yml\n${

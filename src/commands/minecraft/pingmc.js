@@ -1,6 +1,7 @@
 const util = require("minecraft-server-util");
 const guild = require("../../schemas/guild");
 const { error } = require("../../extra/replyFunc");
+const { Colors } = require("../../extra/colors");
 
 exports.id = "1048593160886030380";
 exports.command = {
@@ -38,7 +39,7 @@ exports.run = async (client, interaction) => {
         embeds: [{
           title: "settings updated!",
           description: `server ip has been changed to ||${ip}||`,
-          color: 0x57f287,
+          color: Colors.Success,
         }],
       });
       }
@@ -63,7 +64,7 @@ exports.run = async (client, interaction) => {
       embeds: [{
         title: "Server status",
         description: "A server is online",
-        color: 0x57f287,
+        color: Colors.Success,
         thumbnail: {
           url: "https://cdn.discordapp.com/avatars/419838142510530572/af980f65ee01db127c18dd4809742851.png?size=64",
         },
@@ -84,7 +85,7 @@ exports.run = async (client, interaction) => {
           title: "Server status",
           description:
             "Unknown error occured while trying to retrieve server status",
-          color: 0x5865f2,
+          color: Colors.Warning,
           fields: [{ name: "disconnect reason:", value: `\`\`\`${err}\`\`\`` }],
         }],
       });
@@ -94,7 +95,7 @@ exports.run = async (client, interaction) => {
       embeds: [{
         title: "Server status",
         description: "Currently no servers online",
-        color: 0xed4245,
+        color: Colors.Error,
         thumbnail: {
           url: "https://cdn.discordapp.com/avatars/419838142510530572/af980f65ee01db127c18dd4809742851.png?size=64",
         },

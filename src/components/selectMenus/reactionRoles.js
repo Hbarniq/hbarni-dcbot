@@ -1,3 +1,5 @@
+const { Colors } = require("../../extra/colors");
+const { success } = require("../../extra/replyFunc");
 const guild = require("../../schemas/guild");
 module.exports = {
   data: {
@@ -34,13 +36,6 @@ module.exports = {
       }
     }
 
-    interaction.createFollowup({
-        flags: 64,
-        embeds: [{
-          title: "success!",
-          description: `Your roles have been updated`,
-          color: 0x57f287,
-        }],
-    })
+    success(`Your roles have been updated`, interaction)
   },
 };

@@ -1,3 +1,5 @@
+const { Colors } = require("../../extra/colors");
+
 exports.id = "1048593160886030379";
 exports.command = {
   name: "userinfo", // the command name, max 32 characters
@@ -82,7 +84,7 @@ exports.run = async (client, interaction) => {
             128
           )}`,
         },
-        color: 0x5865f2,
+        color: Colors.Neutral,
         description: `
         **General information:**
         **tag:** \`${target.username}#${target.discriminator}\`
@@ -111,14 +113,14 @@ exports.run = async (client, interaction) => {
             128
           )}`,
         },
-        color: 0x5865f2,
+        color: Colors.Neutral,
         footer: footer,
       }],
     });
   } else if (category == "id") {
     interaction.createMessage({
       embeds: [{
-        color: 0x5865f2,
+        color: Colors.Neutral,
         fields: [
           {
             name: `${target.username}'s id`,
@@ -131,7 +133,7 @@ exports.run = async (client, interaction) => {
   } else if (category == "joined") {
     interaction.createMessage({
       embeds: [{
-        color: 0x5865f2,
+        color: Colors.Neutral,
         fields: [
           {
             name: `${target.username} joined discord:`,

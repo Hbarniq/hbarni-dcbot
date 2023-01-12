@@ -1,3 +1,5 @@
+const { Colors } = require("../../extra/colors");
+const { success, error } = require("../../extra/replyFunc");
 const guild = require("../../schemas/guild");
 exports.id = "1053763811129167923";
 exports.command = {
@@ -36,7 +38,7 @@ exports.run = async (client, interaction) => {
       embeds: [{
         title: "settings updated!",
         description: "successfully disabled welcome messages",
-        color: 0x57f287,
+        color: Colors.Success,
       }],
     });
   } else if (
@@ -44,15 +46,7 @@ exports.run = async (client, interaction) => {
     disable.value &&
     !guildProfile.welcome.using
   ) {
-    return await interaction.createFollowup({
-      flags: 64,
-      embeds: [{
-        title: "oops... something went wrong",
-        description:
-          "You aren't using welcome messages.. only use the disable option if you have them enabled and you want to disable them",
-        color: 0xed4245,
-      }],
-    });
+    return error("You aren't using welcome messages.. only use the disable option if you have them enabled and you want to disable them", interaction)
   }
 
   await guildProfile.updateOne({
@@ -62,11 +56,5 @@ exports.run = async (client, interaction) => {
     },
   });
 
-  interaction.createFollowup({
-    embeds: [{
-      title: "success!",
-      description: `welcome messages will start appearing in <#${interaction.data.options.raw[0].value}> ✅`,
-      color: 0x57f287,
-    }],
-  });
+  success(`welcome messages will start appearing in <#${interaction.data.options.raw[0].value}> ✅`, interaction)
 };

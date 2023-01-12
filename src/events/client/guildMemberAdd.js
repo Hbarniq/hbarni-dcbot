@@ -1,3 +1,4 @@
+const { Colors } = require("../../extra/colors");
 const dataGuild = require("../../schemas/guild");
 module.exports = {
   name: "guildMemberAdd",
@@ -63,7 +64,7 @@ module.exports = {
       context.drawImage(avatar, 25, 25, 200, 200);
 
       welcomeEmbed = {
-        color: 0x5865f2,
+        color: Colors.Neutral,
         title: `Hi o/ ${member.username}`,
         image: { url: "attachment://backgroundimg.png" },
         description:

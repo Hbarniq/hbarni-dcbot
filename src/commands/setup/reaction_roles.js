@@ -1,6 +1,6 @@
-const { ConnectionServices } = require("oceanic.js");
+const { Colors } = require("../../extra/colors");
 const { emojiRegex, discordEmojiRegex } = require("../../extra/emojiRegex");
-const { error } = require("../../extra/replyFunc");
+const { error, success } = require("../../extra/replyFunc");
 const guild = require("../../schemas/guild");
 exports.id = "1060216704547946536";
 exports.command = {
@@ -88,18 +88,7 @@ exports.run = async (client, interaction) => {
       guildProfile.reaction_roles.roles.push(role);
       await guildProfile.save().catch(console.error);
 
-      interaction.createMessage({
-        flags: 64,
-        embeds: [{
-          title: "success!",
-          description: `added the role to reaction roles!\nrole: <@&${
-            role.id
-          }>\ndescription: \`${role.description}\`\nemoji: ${
-            role.emoji == "➖" ? "`No emoji set...`" : role.emoji
-          }`,
-          color: 0x57f287,
-        }],
-      });
+      success(`added the role to reaction roles!\nrole: <@&${role.id}>\ndescription: \`${role.description}\`\nemoji: ${role.emoji == "➖" ? "`No emoji set...`" : role.emoji}`, interaction)
 
       break;
 
@@ -154,7 +143,7 @@ exports.run = async (client, interaction) => {
       interaction.channel.createMessage({
         embeds: [{
           title: "Select your roles below!",
-          color: 0x206694,
+          color: Colors.Neutral,
           fields: fields,
         }],
         components: [
@@ -174,14 +163,7 @@ exports.run = async (client, interaction) => {
         ],
       });
 
-      interaction.createMessage({
-        flags: 64,
-        embeds: [{
-          title: "success!",
-          description: `created role selection prompt!`,
-          color: 0x57f287,
-        }],
-      });
+      success(`created role selection prompt!`, interaction)
 
       break;
 
@@ -191,14 +173,7 @@ exports.run = async (client, interaction) => {
         return error("Could not delete reaction roles data", interaction);
       });
 
-      interaction.createMessage({
-        flags: 64,
-        embeds: [{
-          title: "success!",
-          description: `deleted reaction roles data... ✅`,
-          color: 0x57f287,
-        }],
-      });
+      success(`deleted reaction roles data... ✅`, interaction)
 
       break;
     default:

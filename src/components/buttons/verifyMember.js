@@ -1,3 +1,5 @@
+const { Colors } = require("../../extra/colors");
+const { error } = require("../../extra/replyFunc");
 const guild = require("../../schemas/guild");
 module.exports = {
   data: {
@@ -13,15 +15,7 @@ module.exports = {
       new RegExp("([a-zA-Z0-9]+://)?([a-zA-Z0-9_]+:[a-zA-Z0-9_]+@)?([a-zA-Z0-9.-]+\\.[A-Za-z]{2,4})(:[0-9]+)?(/.*)?").test(interaction.member.username) //username has url
     )
       {
-      return interaction.createMessage({
-        flags: 64,
-        embeds: [{
-          title: "oops... something went wrong",
-          description:
-            "Your account was deemed suspicious and did not pass verification\nIf you think this is wrong contact a moderator",
-          color: 0xed4245,
-        }],
-      });
+      return error("Your account was deemed suspicious and did not pass verification\nIf you think this is wrong contact a moderator", interaction)
     }
 
     const guildProfile = await guild.findOne({
@@ -37,7 +31,7 @@ module.exports = {
     interaction.createMessage({
       flags: 64,
       embeds: [{
-        color: 0x57f287,
+        color: Colors.Success,
         description: "You have been verified :D",
       }],
     });
@@ -102,7 +96,7 @@ module.exports = {
     context.drawImage(avatar, 25, 25, 200, 200);
 
     welcomeEmbed = {
-      color: 0x5865f2,
+      color: Colors.Neutral,
       title: `Hi o/ ${member.username}`,
       image: { url: "attachment://backgroundimg.png" },
       description:

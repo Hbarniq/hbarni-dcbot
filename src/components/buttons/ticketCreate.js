@@ -1,3 +1,5 @@
+const { Colors } = require("../../extra/colors");
+const { error } = require("../../extra/replyFunc");
 const guild = require("../../schemas/guild");
 module.exports = {
   // modals https://www.youtube.com/watch?v=Yu0jnPXKJSo (Eris doesnt have an official way of doin this)
@@ -13,15 +15,7 @@ module.exports = {
     });
 
     if (hasTicket) {
-      return interaction.createMessage({
-        flags: 64,
-        embeds: [{
-          title: "oops.. something went wrong",
-          description:
-            "You have already created a ticket, close it before creating a new one",
-          color: 0xed4245,
-        }],
-      });
+      return error("You have already created a ticket, close it before creating a new one", interaction)
     }
 
     interaction.createModal({

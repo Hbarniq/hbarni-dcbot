@@ -1,3 +1,4 @@
+const { Colors } = require("../../extra/colors");
 const guild = require("../../schemas/guild");
 module.exports = {
   name: "messageCreate",
@@ -25,7 +26,7 @@ module.exports = {
           name: message.member.username,
           iconURL: avatar
         },
-        color: 0x206694,
+        color: Colors.Neutral,
         attachments: message.attachments
       }]
     })

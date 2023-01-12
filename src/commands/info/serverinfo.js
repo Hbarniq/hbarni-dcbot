@@ -1,3 +1,5 @@
+const { Colors } = require("../../extra/colors");
+
 exports.id = "1048593160886030378"
 exports.command = {
   name: "serverinfo", // the command name, max 32 characters
@@ -22,7 +24,7 @@ exports.run = async (client, interaction) => {
   interaction.createMessage({
     embeds: [{
       author: { name: `${guild.name}`, iconURL: `${icon}` },
-      color: 0x5865f2,
+      color: Colors.Neutral,
       fields: [
         { name: "Server id", value: `:tools: ${guild.id}`, inline: true },
         { name: "Owner", value: `<@${guild.ownerID}>`, inline: true },

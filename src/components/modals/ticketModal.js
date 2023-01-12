@@ -1,3 +1,4 @@
+const { Colors } = require("../../extra/colors");
 const guild = require("../../schemas/guild");
 module.exports = {
   data: {
@@ -20,7 +21,7 @@ module.exports = {
       flags: 64,
       embeds: [{
         description: `**Success** 🎫\nYour ticket has been created\nhere it is: <#${thread.id}>`,
-        color: 0x57f287,
+        color: Colors.Success,
       }],
     });
     thread.createMessage({
@@ -29,13 +30,13 @@ module.exports = {
           // reason
           title: "Ticket reason:",
           description: `${reason.replace(/[\r\n]/gm, " ")}`,
-          color: 0x5865f2,
+          color: Colors.Neutral,
         },
         {
           // ticketClose
           description:
             "**You created a ticket!**\nmention staff to add them\nTo close the ticket react with 🔒",
-          color: 0x57f287,
+          color: Colors.Success,
         },
       ],
       components: [
