@@ -11,7 +11,15 @@ module.exports = {
     if (new RegExp(`^<@!?${client.user.id}>`).test(prefix)) {
       switch (command) {
         case "eval":
-          const arg = args.join(" ")
+          let arg = args.join(" ")
+          let flags = [];
+          await args.forEach((a) => {
+            a.startsWith()
+            if (a.startsWith("-")) {
+              arg = arg.replace(a, "")
+              return flags.push(a.replace(/[-]{1,2}/g, ""))
+            }
+          })
           let res = "No resolution";
           try {
             res = await eval(`(async()=>{${arg.includes("return") ? "" : "return "}${arg}})()`);
@@ -32,33 +40,36 @@ module.exports = {
             res = new Error("Output could not be shown (out was undefined)")
           }
 
+          const useFile = ["f", "file"].some((e) => flags.includes(e))
           let file;
-          if (res.length >= 2000) {
+          if (res.length >= 2000 || useFile) {
             file = Buffer.from(res)
           }
 
-          message.channel.createMessage({
-            embeds: [
-              {
-                author: {
-                  name: message.author.tag,
-                  iconURL: message.author.avatarURL("png", 128),
+          if (!["s", "silent"].some((e) => flags.includes(e))) {
+            message.channel.createMessage({
+               embeds: !useFile ? [
+                {
+                  author: {
+                    name: message.author.tag,
+                    iconURL: message.author.avatarURL("png", 128),
+                  },
+                  color: res instanceof Error ? Colors.Error : Colors.Neutral,
+                  description: `
+                  📥 **Input**
+                  \`\`\`js\n${arg}\n\`\`\`
+  
+                  📤 **Output**
+                  \`\`\`js\n${res.length >= 2000 ? "Output too large, see attachment" : res}\n\`\`\`
+                  `,
                 },
-                color: res instanceof Error ? Colors.Error : Colors.Neutral,
-                description: `
-                📥 **Input**
-                \`\`\`js\n${arg}\n\`\`\`
-
-                📤 **Output**
-                \`\`\`js\n${res.length >= 2000 ? "Output too large, see attachment" : res}\n\`\`\`
-                `,
-              },
-            ],
-            files: file ? [{
-                contents: file,
-                name: "output.txt"
-            }] : []
-          });
+              ] : [],
+              files: file ? [{
+                  contents: file,
+                  name: "output.txt"
+              }] : []
+            });
+          }
 
           break;
 
