@@ -11,17 +11,18 @@ module.exports = {
     if (new RegExp(`^<@!?${client.user.id}>`).test(prefix)) {
       switch (command) {
         case "eval":
-          const _args = args.join(" ")
+          const arg = args.join(" ")
           let res = "No resolution";
           try {
-            res = await eval(`(async()=>{return ${_args}})()`);
+            res = await eval(`(async()=>{${arg.includes("return") ? "" : "return "}${arg}})()`);
             if (res != undefined) {
                 if (res instanceof Promise) {
                     res = await res;
                 }
-                
-                res = JSON.stringify(res);
-                res = res.replace(/(.{24}\..{6}\..{26})\w+/g, "Token-hidden")
+
+                res = JSON.stringify(res, null, 4);
+                res = res.replace(/(.{24}\..{6}\..{26})\w+/g, "data-hidden")
+                res = res.replace(/(^.?mongodb\+srv:\/\/discordbot:.{36}\.mongodb\.net\/\?retryWrites=true&w=majority.?)/g, "data-hidden")
                 
             }
           } catch (err) {
@@ -40,16 +41,16 @@ module.exports = {
             embeds: [
               {
                 author: {
-                  name: message.author.name,
-                  iconURL: message.author.avatarURL,
+                  name: message.author.tag,
+                  iconURL: message.author.avatarURL("png", 128),
                 },
                 color: res instanceof Error ? Colors.Error : Colors.Neutral,
                 description: `
                 📥 **Input**
-                \`\`\`js\n${args[0]}\n\`\`\`
+                \`\`\`js\n${arg}\n\`\`\`
 
                 📤 **Output**
-                \`\`\`js\n${res.length >= 2000 ? res.slice(0, 2000) + "\n\nOutput too large, see attachment" : res}\n\`\`\`
+                \`\`\`js\n${res.length >= 2000 ? "Output too large, see attachment" : res}\n\`\`\`
                 `,
               },
             ],
