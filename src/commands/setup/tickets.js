@@ -1,6 +1,6 @@
 const { Colors } = require("../../extra/colors");
 
-exports.id = "1048593160886030382"
+
 exports.command = {
   name: "tickets",
   description: "Adds a ticketing system to a channel",

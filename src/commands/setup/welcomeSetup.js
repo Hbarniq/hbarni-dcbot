@@ -1,7 +1,7 @@
 const { Colors } = require("../../extra/colors");
 const { success, error } = require("../../extra/replyFunc");
 const guild = require("../../schemas/guild");
-exports.id = "1053763811129167923";
+
 exports.command = {
   name: "welcomesetup",
   description: "welcome messages when a user joins",

@@ -1,6 +1,6 @@
 const { Colors } = require("../../extra/colors");
 
-exports.id = "1048593160886030379";
+
 exports.command = {
   name: "userinfo", // the command name, max 32 characters
   description: "returns info about the selected user",

@@ -5,12 +5,12 @@ module.exports = {
     name: "infoMenu",
   },
   async run(client, interaction) {
-    const selected = interaction.data.values[0];
+    const selected = interaction.data.values.raw[0];
 
     if (selected == "rulesEmbed") {
       interaction.createMessage({
         flags: 64,
-        embed: {
+        embeds: [{
           title: "rules",
           color: Colors.Neutral,
           description:
@@ -35,12 +35,12 @@ module.exports = {
                 "you are **not** allowed to dos or do any kind of harmful action to the server and **do not** distribute anyone's personal data.",
             },
           ],
-        },
+        }],
       });
     } else if (selected == "infoEmbed") {
       interaction.createMessage({
         flags: 64,
-        embed: {
+        embeds: [{
           title: "general info / FAQ",
           description:
             "there is a couple of other things that you should know next to the rules, also this is kind of a **faq**",
@@ -67,12 +67,12 @@ module.exports = {
                 "you can either check it with </pingmc:1024704950804164619> \nor directly within the game in your main menu",
             },
           ],
-        },
+        }],
       });
     } else if (selected == "installEmbed") {
       interaction.createMessage({
         flags: 64,
-        embed: {
+        embeds: [{
           title: "Install modpack",
           description:
             '**installer download**\nthere is an installer for this modpack, download it from here:\nhere is the [ahms only version](https://github.com/Hbarniq/HB-mci/releases/latest/download/ahms_mcinstall.exe)\n\n> https://github.com/Hbarniq/HB-mci/releases/latest\n\nthis also serves as an updater for the modpack so **keep it in your install directory** after using it',
@@ -92,12 +92,12 @@ module.exports = {
           image: {
             url: "https://cdn.discordapp.com/attachments/1050691362128924743/1055167749934034955/image.png"
           },
-        },
+        }],
       });
     } else if (selected == "customEmbed") {
       interaction.createMessage({
         flags: 64,
-        embed: {
+        embeds: [{
           title: "making custom things",
           color: Colors.Neutral,
           fields: [
@@ -127,7 +127,7 @@ module.exports = {
                 "You can add emote audio by putting a wave (.wav) file with the same name as your emote in your emote folder\nand it will automaticly be played once you play the emote\nyou can convert audio files to wave files with online converters or VLC",
             },
           ],
-        },
+        }],
       });
     }
   },

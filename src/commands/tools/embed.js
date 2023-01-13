@@ -1,4 +1,4 @@
-exports.id = "1048593160886030384"
+
 exports.command = {
     name: "embed",
     description: "Creates a custom embed",

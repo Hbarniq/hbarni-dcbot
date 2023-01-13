@@ -1,7 +1,7 @@
 const { Colors } = require("../../extra/colors");
 const { error, success } = require("../../extra/replyFunc");
 const guild = require("../../schemas/guild");
-exports.id = "1048593160886030385";
+
 exports.command = {
   name: "poll",
   description: "for running polls",

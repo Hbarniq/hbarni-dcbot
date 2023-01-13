@@ -1,6 +1,6 @@
 const { Colors } = require("../../extra/colors");
 
-exports.id = "1048593160886030385";
+
 exports.command = {
   name: "ping", // the command name, max 32 characters
   description: "Pong!", // the command description, max 100 characters

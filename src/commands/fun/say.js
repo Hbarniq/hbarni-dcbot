@@ -1,4 +1,4 @@
-exports.id = "1048593160886030376"
+
 exports.command = {
     name: "say",
     description: "says what the user wants",

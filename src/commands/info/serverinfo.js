@@ -1,6 +1,6 @@
 const { Colors } = require("../../extra/colors");
 
-exports.id = "1048593160886030378"
+
 exports.command = {
   name: "serverinfo", // the command name, max 32 characters
   description: "returns info about the current server", // the command description, max 100 characters

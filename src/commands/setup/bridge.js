@@ -1,7 +1,7 @@
 const guild = require("../../schemas/guild");
 const { error, success } = require("../../extra/replyFunc");
 const { Colors } = require("../../extra/colors");
-exports.id = "1048593160886030381";
+
 exports.command = {
   name: "bridge",
   description:

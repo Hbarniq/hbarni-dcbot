@@ -2,7 +2,7 @@ const { Colors } = require("../../extra/colors");
 const { emojiRegex, discordEmojiRegex } = require("../../extra/emojiRegex");
 const { error, success } = require("../../extra/replyFunc");
 const guild = require("../../schemas/guild");
-exports.id = "1060216704547946536";
+
 exports.command = {
   name: "reaction_roles",
   description: "for setting up reaction roles",

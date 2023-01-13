@@ -1,7 +1,7 @@
 const { Colors } = require("../../extra/colors");
 const { error, success } = require("../../extra/replyFunc");
 const guild = require("../../schemas/guild");
-exports.id = "1048593160886030383";
+
 exports.command = {
   name: "verifysetup",
   description: "specificly for the AHMS discord server",

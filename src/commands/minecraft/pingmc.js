@@ -3,7 +3,7 @@ const guild = require("../../schemas/guild");
 const { error } = require("../../extra/replyFunc");
 const { Colors } = require("../../extra/colors");
 
-exports.id = "1048593160886030380";
+
 exports.command = {
   name: "pingmc",
   description: "Pings the minecraft server and returns some info",
