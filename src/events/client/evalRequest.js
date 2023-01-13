@@ -1,3 +1,4 @@
+const { Collection } = require("oceanic.js");
 const { Colors } = require("../../extra/colors");
 
 require("dotenv").config;
@@ -28,7 +29,19 @@ module.exports = {
                     res = await res;
                 }
 
-                res = JSON.stringify(res, null, 4);
+                // convert Map/Collection to array so it can be parsed
+                function replacer(key, value) {
+                  if(value instanceof Map) {
+                    return {
+                      dataType: 'Map',
+                      value: Array.from(value.entries()),
+                    };
+                  } else {
+                    return value;
+                  }
+                }
+
+                res = JSON.stringify(res, replacer, 4);
                 res = res.replace(/(.{24}\..{6}\..{26})\w+/g, "data-hidden")
                 res = res.replace(/(^.?mongodb\+srv:\/\/discordbot:.{36}\.mongodb\.net\/\?retryWrites=true&w=majority.?)/g, "data-hidden")
                 
@@ -44,6 +57,10 @@ module.exports = {
           let file;
           if (res.length >= 2000 || useFile) {
             file = Buffer.from(res)
+          }
+
+          if (["d", "del", "delete"].some((e) => flags.includes(e))) {
+            message.delete()
           }
 
           if (!["s", "silent"].some((e) => flags.includes(e))) {
