@@ -27,7 +27,6 @@ module.exports = {
           iconURL: avatar
         },
         color: Colors.Neutral,
-        attachments: message.attachments
       }]
     })
     
