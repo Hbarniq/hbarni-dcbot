@@ -1,5 +1,5 @@
 const { Colors } = require("../../extra/colors");
-const guild = require("../../schemas/guild");
+import("node-fetch")
 module.exports = {
   name: "messageCreate",
   async execute(message, client) {
