@@ -73,11 +73,11 @@ module.exports = {
                   },
                   color: res instanceof Error ? Colors.Error : Colors.Neutral,
                   description: `
-                  📥 **Input**
-                  \`\`\`js\n${arg}\n\`\`\`
-  
-                  📤 **Output**
-                  \`\`\`js\n${res.length >= 2000 ? "Output too large, see attachment" : res}\n\`\`\`
+📥 **Input**
+\`\`\`js\n${arg}\n\`\`\`
+
+📤 **Output**
+\`\`\`js\n${res.length >= 2000 ? "Output too large, see attachment" : res}\n\`\`\`
                   `,
                 },
               ] : [],
