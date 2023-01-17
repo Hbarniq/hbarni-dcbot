@@ -1,5 +1,5 @@
 const { Colors } = require("../../extra/colors");
-import("node-fetch")
+const { fetch } = require("undici")
 module.exports = {
   name: "messageCreate",
   async execute(message, client) {
@@ -12,8 +12,7 @@ module.exports = {
     // for searching through specific urls and replying with results
     if (url.includes("https://quizlet.com")) {
         const args = url.split("/")
-        const res = await (await fetch(`https://quizlet.com/webapi/3.9/sets/${args[3]}`)).json()
-        if (!res) return;
+        const res = await (await fetch(`https://quizlet.com/webapi/3.9/sets/${args[3]}`)).json(); if (!res) return;
         const data = res.responses[0].models.set[0]
         message.channel.createMessage({
             embeds: [{
