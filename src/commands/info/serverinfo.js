@@ -51,10 +51,6 @@ exports.run = async (client, interaction) => {
           value: `<t:${setTimestamp}>  \`<=>\`  <t:${setTimestamp}:R>`,
         },
       ],
-      footer: {
-        text: "Hbarni bot - serverinfo",
-        iconURL: "https://cdn.discordapp.com/avatars/768875082705534977/b8228cc7501688e3b0a73f8cc7f040ad.webp"
-      }
     }],
   });
 };
