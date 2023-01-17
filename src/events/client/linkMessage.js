@@ -1,5 +1,5 @@
 const { Colors } = require("../../extra/colors");
-import("node-fetch")
+const fetch = import("node-fetch")
 module.exports = {
   name: "messageCreate",
   async execute(message, client) {

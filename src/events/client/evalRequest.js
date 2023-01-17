@@ -1,6 +1,5 @@
-const { Collection } = require("oceanic.js");
 const { Colors } = require("../../extra/colors");
-import("node-fetch")
+const fetch = import("node-fetch")
 require("dotenv").config;
 const { devs } = process.env;
 
