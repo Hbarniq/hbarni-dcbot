@@ -1,5 +1,9 @@
 const { Colors } = require("../../extra/colors");
+<<<<<<< HEAD
 const { fetch } = require("undici")
+=======
+const fetch = import("node-fetch")
+>>>>>>> 5e33bc02d9a5ec58b82cad2a15091b43ba29d709
 require("dotenv").config;
 const { devs } = process.env;
 
