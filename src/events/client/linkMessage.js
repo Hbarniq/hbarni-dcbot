@@ -12,15 +12,7 @@ module.exports = {
     // for searching through specific urls and replying with results
     if (url.includes("https://quizlet.com")) {
         const args = url.split("/")
-        const res = await (await fetch(`https://quizlet.com/webapi/3.9/sets/${args[3]}`)).json().catch(err => {
-          return message.channel.createMessage({
-            embeds: [{
-              title: "quizlet refused connection!",
-              description: "this is the dumbest error I have ever written..\nthis is caused by quizlet having bot checking on a website that only bots are supposed to visit lol",
-              color: Colors.Error
-            }]
-          })
-        }); if (!res) return;
+        const res = await (await fetch(`https://quizlet.com/webapi/3.9/sets/${args[3]}`)).json().catch(err => {return;}); if (!res) return;
         const data = res.responses[0].models.set[0]
         message.channel.createMessage({
             embeds: [{
