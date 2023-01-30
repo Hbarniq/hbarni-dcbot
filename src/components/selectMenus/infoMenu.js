@@ -75,7 +75,7 @@ module.exports = {
         embeds: [{
           title: "Install modpack",
           description:
-            '**installer download**\nthere is an installer for this modpack, download it from here:\nhere is the [ahms only version](https://github.com/Hbarniq/HB-mci/releases/latest/download/ahms_mcinstall.exe)\n\n> https://github.com/Hbarniq/HB-mci/releases/latest\n\nthis also serves as an updater for the modpack so **keep it in your install directory** after using it',
+            '**installer download**\nthere is an installer for this modpack, download it from [here](https://github.com/Hbarniq/mcinstall-reboot/releases/latest/download/mci-reloaded.msi):\n\n> https://github.com/Hbarniq/mcinstall-reboot/releases/latest\n\nthis also serves as an updater for the modpack so **keep it in your install directory** after using it',
           color: Colors.Neutral,
           fields: [
             {
