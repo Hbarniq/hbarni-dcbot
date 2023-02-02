@@ -5,7 +5,7 @@ module.exports = {
   async execute(message, client) {
     if (message.author.bot) return;
     // known issue: link has to be first argument or the first in new line
-    let url = /^<?(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?>?$/gm.exec(message.content)
+    let url = /^.*<?(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?>?$/gm.exec(message.content)
     if (!url) return;
     url = url[0]
 
