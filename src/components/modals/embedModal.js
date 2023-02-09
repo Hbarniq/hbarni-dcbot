@@ -3,6 +3,7 @@ module.exports = {
     name: "embedModal",
   },
   async run(client, interaction) {
+    await interaction.defer(64)
     const components = interaction.data.components;
     const embedTitle = components[0].components[0].value;
     const embedDescription = components[1].components[0].value;
@@ -46,7 +47,8 @@ module.exports = {
       embed = Object.assign({}, embed, { thumbnail: { url: embedThumbImg } });
     }
 
-    interaction.createMessage({
+    interaction.deleteOriginal()
+    interaction.channel.createMessage({
       embeds: [embed],
     });
   },
