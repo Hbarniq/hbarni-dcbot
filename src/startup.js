@@ -1,8 +1,12 @@
 require("dotenv").config();
-const { dbToken } = process.env;
+const { token, dbToken, release, globaldisable, devs } = process.env;
 const fs = require("fs");
 const { connect, set } = require("mongoose");
 module.exports = (client) => {
+  if ([token, dbToken, release, globaldisable, devs].some(v => !v)) {
+    throw Error("Some env variables are undefined!")
+  }
+
   client.startup = async () => {
     const ffs = fs.readdirSync(`./src/functions`);
     for (const folder of ffs) {
