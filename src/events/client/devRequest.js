@@ -88,6 +88,17 @@ module.exports = {
           }
 
           break;
+        
+        case "exit":
+          await message.channel.createMessage({
+            embeds: [{
+              title: "shutting down!",
+              description: `was online for: ${Math.floor(process.uptime())} seconds`,
+              color: Colors.Neutral
+            }]
+          })
+          process.abort()
+          break
 
         default:
           break;
