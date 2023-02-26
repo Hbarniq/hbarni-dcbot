@@ -14,4 +14,4 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build
-      run: docker build . --file Dockerfile --tag Hbarni-dcbot:$(date +%s)
+      run: docker build . --file Dockerfile --tag hbarni-dcbot:$(date +%s)
