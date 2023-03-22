@@ -19,6 +19,11 @@ module.exports = {
         if (!res) return;
         const data = res.responses[0].models.set[0]
         embeds.push({
+          author: {
+            name: "view on website",
+            url,
+            iconURL: "https://yt3.ggpht.com/2lfbQ5cIneWcMCMQV1ktvXJESV2HDF1qrzP2f1GQyfbuQmxpEEshl0INJd8XJbevA5oc9rc5SVw=s68-c-k-c0x00ffffff-no-rj"
+          },
           title: data.title,
           description: `
 description: ${data.description != "" ? data.description : "No description set.."}
@@ -52,9 +57,11 @@ code: ${invite.code}
       }
     }
 
-    message.channel.createMessage({
+    await message.channel.createMessage({
       embeds,
       messageReference: { messageID: message.id }
     });
+    
+    message.edit({ flags: 4 });
   },
 };
