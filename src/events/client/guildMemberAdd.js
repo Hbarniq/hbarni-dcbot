@@ -4,7 +4,7 @@ module.exports = {
   name: "guildMemberAdd",
   async execute(guild, member, client) {
     const guildProfile = await dataGuild.findOne({ guildId: guild.id });
-    if (guildProfile.welcome.using && !guildProfile.verification.using) {
+    if (guildProfile.welcome && !guildProfile.verification.using) {
       const Canvas = require("@napi-rs/canvas");
 
       //shape the username depending on its scale
