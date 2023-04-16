@@ -54,7 +54,7 @@ code: ${invite.code}
           },
           color: Colors.Neutral
         })
-      }
+      } else return;
     }
 
     await message.channel.createMessage({
