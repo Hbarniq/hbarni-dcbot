@@ -1,10 +1,13 @@
 const { Colors } = require("../../extra/colors");
-const dataGuild = require("../../schemas/guild");
+const guild = require("../../schemas/guild");
 module.exports = {
   name: "guildMemberAdd",
-  async execute(guild, member, client) {
-    const guildProfile = await dataGuild.findOne({ guildId: guild.id });
-    if (guildProfile.welcome && !guildProfile.verification.using) {
+  async execute(member, client) {
+    let guildProfile = await guild.findOne({ guildId: member.guild.id });
+    if (guildProfile.welcome != undefined && !guildProfile.verification.using) {
+      if (guildProfile.welcome.role != undefined) {
+        member.addRole(guildProfile.welcome.role, "given as join role")
+      };
       const Canvas = require("@napi-rs/canvas");
 
       //shape the username depending on its scale
@@ -68,7 +71,7 @@ module.exports = {
         title: `Hi o/ ${member.username}`,
         image: { url: "attachment://backgroundimg.png" },
         description:
-          "welcome to the server :D\ngo check out things like <#1036659271061999776>, <#1036334633333309440>",
+          `welcome to the server :D\n${member.guild.id == "1036322425811513484" ? "go check out things like <#1036659271061999776>, <#1036334633333309440>" : ""}`,
       };
       
       const welcomeChannel = await client.rest.channels.get(guildProfile.welcome.welcomeChannel)

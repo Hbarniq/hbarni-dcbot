@@ -14,6 +14,12 @@ exports.command = {
       required: true,
     },
     {
+      type: 8,
+      name: "role",
+      description: "optionally give a role to anyone joining",
+      required: false
+    },
+    {
       type: 5,
       name: "disable",
       description: "only use this if you want to disable welcome messages",
@@ -49,9 +55,11 @@ exports.run = async (client, interaction) => {
     return error("You aren't using welcome messages.. only use the disable option if you have them enabled and you want to disable them", interaction)
   }
 
+  const welcomeRole = interaction.data.options.raw[1]
   await guildProfile.updateOne({
     welcome: {
       using: true,
+      role: welcomeRole != undefined ? welcomeRole.value : undefined,
       welcomeChannel: interaction.data.options.raw[0].value,
     },
   });

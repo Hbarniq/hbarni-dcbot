@@ -10,6 +10,7 @@ const guildSchema = new Schema({
   },
   welcome: {
     using: Boolean,
+    role: String,
     welcomeChannel: String,
     required: false,
   },
