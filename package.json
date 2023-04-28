@@ -3,11 +3,11 @@
   "version": "2.2.2",
   "main": "src/index.js",
   "dependencies": {
-    "@napi-rs/canvas": "^0.1.30",
+    "@napi-rs/canvas": "^0.1.40",
     "dotenv": "^16.0.3",
-    "minecraft-server-util": "^5.3.1",
-    "mongoose": "^6.8.0",
-    "oceanic.js": "^1.5.1-dev.2638858"
+    "minecraft-server-util": "^5.4.2",
+    "mongoose": "^6.10.5",
+    "oceanic.js": "^1.6.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
