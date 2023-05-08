@@ -24,7 +24,7 @@ export const GuildConfigSchema = new Schema({
 export const data = {
   ConfigToggles: [ "Verification", "Welcome" ],
 
-  ConfigValues: [ "VerifiedRole", "VerificationChannel", "WelcomeAssignedRole", "PingMinecraftServerIp",],
+  ConfigValues: [ "VerifiedRole", "VerificationChannel", "WelcomeAssignedRole", "WelcomeMessageChannel", "PingMinecraftServerIp"],
 
   optionTypes: {
     VerifiedRole: "role id",
