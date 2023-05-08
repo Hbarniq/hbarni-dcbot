@@ -1,19 +1,28 @@
 {
-  "name": "hbarnibot",
-  "version": "2.2.2",
-  "main": "src/index.js",
-  "dependencies": {
-    "@napi-rs/canvas": "^0.1.40",
-    "dotenv": "^16.0.3",
-    "minecraft-server-util": "^5.4.2",
-    "mongoose": "^6.10.5",
-    "oceanic.js": "^1.6.0"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
+  "name": "hbarni-dcbot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
   "author": "Hbarni",
   "license": "ISC",
-  "description": "A personal discord bot made by Hbarni with the Oceanic.js library"
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node .",
+    "dev": "nodemon --esm src/index.ts"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.40",
+    "chalk": "^5.2.0",
+    "dotenv": "^16.0.3",
+    "minecraft-server-util": "^5.4.2",
+    "mongoose": "^7.1.0",
+    "oceanic.js": "^1.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^18.16.5",
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  }
 }
