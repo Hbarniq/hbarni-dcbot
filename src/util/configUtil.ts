@@ -22,7 +22,7 @@ export async function checkValidId(Id: string, type: string, interaction: Comman
 }
 
 export async function initFeature(passed: string, interaction: CommandInteraction, guildConfig: any) {
-    if (passed == "Verification" || "VerificationChannel" || "VerifiedRole") {
+    if (["Verification", "VerificationChannel", "VerifiedRole"].includes(passed)) {
         if (guildConfig.Configs.FeatureToggles.Verification && guildConfig.Configs.Options.VerificationChannel && guildConfig.Configs.Options.VerifiedRole) {
 
             interaction.channel?.createMessage({
