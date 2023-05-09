@@ -11,15 +11,8 @@ export default async function createGuildConfig(guildId: string, guildName: stri
       Configs: {
         FeatureToggles: {
           Verification: false,
-          WelcomeMessages: false
-        },
-    
-        Options: {
-          VerifiedRole: undefined,
-          VerificationChannel: undefined,
-          WelcomeAssignedRole: undefined,
-          WelcomeMessageChannel: undefined,
-          PingMinecraftServerIp: undefined
+          WelcomeMessages: false,
+          NicerEmbeds: false
         }
       }
     });

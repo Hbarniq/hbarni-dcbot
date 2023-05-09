@@ -8,7 +8,8 @@ export const GuildConfigSchema = new Schema({
   Configs: {
     FeatureToggles: {
       Verification: Boolean,
-      Welcome: Boolean
+      Welcome: Boolean,
+      NicerEmbeds: Boolean
     },
 
     Options: {
@@ -22,7 +23,7 @@ export const GuildConfigSchema = new Schema({
 })
 
 export const data = {
-  ConfigToggles: [ "Verification", "Welcome" ],
+  ConfigToggles: [ "Verification", "Welcome", "NicerEmbeds" ],
 
   ConfigValues: [ "VerifiedRole", "VerificationChannel", "WelcomeAssignedRole", "WelcomeMessageChannel", "PingMinecraftServerIp"],
 
