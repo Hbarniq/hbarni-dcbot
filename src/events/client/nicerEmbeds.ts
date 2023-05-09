@@ -1,12 +1,14 @@
 import { Client, Constants, EmbedOptions, Message, TextableChannel, Webhook } from "oceanic.js";
-import { dynamicAvatarURL } from "../../util/util.js";
+import { dynamicAvatarURL, getGuildData } from "../../util/util.js";
 import { colors } from "../../util/constants.js";
 
 export default {
     name: "messageCreate",
     exec: async (client: Client, message: Message) => {
-        if (message.author.bot) return;
         if (!(message.channel instanceof TextableChannel)) return;
+        
+        var guildConfig = await getGuildData(message.guildID as string);
+        if (!guildConfig?.Configs?.FeatureToggles?.NicerEmbeds || message.author.bot) return;
 
         let urls: any = message.content.match(/((?:https?|ftp):\/\/[\S]+)/g);
         if (!urls) return;
