@@ -9,7 +9,9 @@ export default {
   once: true,
   exec: async (client: Client) => {
     Logger.info(`ready! logged in as ${client.user.tag}`)
-    client.editStatus("online", [{ type: ActivityTypes.WATCHING, name: "rewrite time yay" }]);
+    if (process.env.ACTIVITY != "false") {
+      client.editStatus("online", [{ type: ActivityTypes.WATCHING, name: "/help" }]);
+    }
 
     client.guilds.forEach(async (g) => {
       let guild = await getGuildData(g.id);
