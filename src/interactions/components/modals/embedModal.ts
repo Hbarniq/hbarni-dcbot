@@ -1,6 +1,6 @@
 import { Client, ModalSubmitInteraction, TextableChannel, Webhook } from 'oceanic.js';
 
-import { dynamicAvatarURL } from '../../../util/util.js';
+import { dynamicAvatarURL, getSelfWebhook } from '../../../util/util.js';
 
 export default {
   customID: "embedModal",
@@ -45,23 +45,15 @@ export default {
       embed = Object.assign({}, embed, { thumbnail: { url: embedThumbImg } });
     }
 
-    if (interaction.channel instanceof TextableChannel) {
-        let webhook: Webhook | undefined;
-        webhook = (await interaction.guild?.getWebhooks())?.find((w) => w.name == "user-embeds");
+    let webhook = await getSelfWebhook("user-embeds", interaction, client)
 
-        if (!webhook) {
-            webhook = await interaction.channel.createWebhook({ name: "user-embeds", reason: `created for sending user embeds, this webhook will be reused` });
-        } else if (webhook?.channel?.id != interaction.channel.id) {
-            webhook = await webhook?.edit({ channelID: interaction.channel.id });
-        }
-        
-        interaction.deleteOriginal()
-        return await webhook?.execute({
-            username: `${interaction.user.username}`,
-            avatarURL: dynamicAvatarURL(interaction.user),
-            embeds: [embed]
-        });
-
+    if (webhook) {
+      interaction.deleteOriginal()
+      return await webhook?.execute({
+          username: `${interaction.user.username}`,
+          avatarURL: dynamicAvatarURL(interaction.user),
+          embeds: [embed]
+      });
     } else {
         embed = Object.assign({}, embed, { author: {
             name: `${interaction.user.username}`,

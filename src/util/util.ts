@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv';
-import { Member, User } from 'oceanic.js';
+import { Client, CommandInteraction, ComponentInteraction, ModalSubmitInteraction, Member, TextableChannel, User, Webhook } from 'oceanic.js';
 
 import { Logger } from './logger.js';
 import guildConfigs from './schemas/guild-configs.js';
@@ -14,6 +14,22 @@ export function dynamicAvatarURL(user: User | Member | undefined) {
 
 export async function getGuildData(guildID: string) {
     return await guildConfigs.findOne({ "GuildData.guildId": guildID });
+}
+
+export async function getSelfWebhook(name: string, interaction: CommandInteraction | ComponentInteraction | ModalSubmitInteraction, client: Client) {
+  if (interaction.channel instanceof TextableChannel) {
+    let webhook: Webhook | undefined
+
+    webhook = (await interaction.guild?.getWebhooks())?.find((w) => w.name == name && w.applicationID == client.application.id)
+
+    if (!webhook) {
+        webhook = await interaction.channel.createWebhook({ name: "user-embeds", reason: `created for sending user embeds, this webhook will be reused` });
+    } else if (webhook?.channel?.id != interaction.channel.id) {
+        webhook = await webhook?.edit({ channelID: interaction.channel.id });
+    }
+
+    return webhook;
+  } else return undefined;
 }
 
 export async function formatTime(seconds: number): Promise<string> {

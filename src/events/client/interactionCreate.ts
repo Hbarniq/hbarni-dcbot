@@ -19,7 +19,7 @@ export default {
           }).catch(Logger.error)
         };
 
-        return await command.exec(client, interaction).catch((err) => returnError("Error occured while executing command", err, interaction));
+        return await command.exec(client, interaction).catch(async (err) => await returnError("Error occured while executing command", err, interaction));
     } else if (interaction instanceof ComponentInteraction) {
       if (interaction.data.componentType == Constants.ComponentTypes.BUTTON) {
 
@@ -32,7 +32,7 @@ export default {
           })
         }
 
-        component.exec(client, interaction).catch((err) => returnError("Error occured while executing button press", err, interaction));
+        component.exec(client, interaction).catch(async (err) => await returnError("Error occured while executing button press", err, interaction));
 
       } else { //assume selectmenu
 
@@ -45,7 +45,7 @@ export default {
           })
         }
 
-        component.exec(client, interaction).catch((err) => returnError("Error occured while executing selection", err, interaction));
+        component.exec(client, interaction).catch(async (err) => await returnError("Error occured while executing selection", err, interaction));
 
       }
     } else if (interaction instanceof ModalSubmitInteraction) {
@@ -59,7 +59,7 @@ export default {
         })
       }
 
-      modal.exec(client, interaction).catch((err) => returnError("Error occured while executing modal response", err, interaction));
+      modal.exec(client, interaction).catch(async (err) => await returnError("Error occured while executing modal response", err, interaction));
 
     }
   }
@@ -67,7 +67,7 @@ export default {
 
 async function returnError(message: string, err: any, interaction: CommandInteraction | ComponentInteraction | ModalSubmitInteraction,) {
   Logger.error(`error while executing ${interaction instanceof CommandInteraction ? interaction.data.name : interaction.data.customID}`)
-  Logger.debug(err)
+  console.log(err)
 
   const embeds = [{
     title: `${icons.Error} ${message}`,
