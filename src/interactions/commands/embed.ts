@@ -1,4 +1,5 @@
 import { AnyCommandInteraction, Client, Constants } from 'oceanic.js';
+import { icons } from '../../util/constants.js';
 
 export default {
   command: {
@@ -8,7 +9,7 @@ export default {
     defaultMemberPermissions: Constants.Permissions.EMBED_LINKS
   },
   exec: async (client: Client, interaction: AnyCommandInteraction) => {
-    return await interaction.createModal({
+    await interaction.createModal({
       title: "Embed contents",
       customID: "embedModal",
       components: [
@@ -87,6 +88,12 @@ export default {
           ],
         },
       ],
+    }).catch(_ => {
+      return interaction.createMessage({
+        embeds: [{
+          description: `**${icons.Warning} modal creation rejected!** \nI was unable to create the modal for whatever reason.. try again!`
+        }]
+      })
     });
   },
 };
