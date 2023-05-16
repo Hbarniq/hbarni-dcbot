@@ -45,7 +45,7 @@ export default {
       embed = Object.assign({}, embed, { thumbnail: { url: embedThumbImg } });
     }
 
-    let webhook = await getSelfWebhook("user-embeds", interaction, client)
+    let webhook = await getSelfWebhook("user-embeds", interaction.channel, client)
 
     if (webhook) {
       interaction.deleteOriginal()

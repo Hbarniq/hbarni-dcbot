@@ -1,5 +1,5 @@
 import { Client, Constants, EmbedOptions, Message, TextableChannel, Webhook } from "oceanic.js";
-import { dynamicAvatarURL, getGuildData } from "../../util/util.js";
+import { dynamicAvatarURL, getGuildData, getSelfWebhook } from "../../util/util.js";
 import { colors } from "../../util/constants.js";
 
 export default {
@@ -63,16 +63,7 @@ export default {
 
 
 
-
-        let webhook: Webhook | undefined;
-
-        webhook = (await message.guild?.getWebhooks())?.find((w) => w.name == "user-embeds");
-
-        if (!webhook) {
-            webhook = await message.channel.createWebhook({ name: "user-embeds", reason: `created for sending user embeds, this webhook will be reused` });
-        } else if (webhook?.channel?.id != message.channel.id) {
-            webhook = await webhook?.edit({ channelID: message.channel.id });
-        }
+        let webhook = await getSelfWebhook("user-embeds", message.channel, client);
 
         await webhook?.execute({
             username: `${message.author.username}`,

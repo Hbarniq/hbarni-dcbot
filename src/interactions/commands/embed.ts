@@ -1,5 +1,5 @@
 import { AnyCommandInteraction, Client, Constants } from 'oceanic.js';
-import { icons } from '../../util/constants.js';
+import { colors, icons } from '../../util/constants.js';
 
 export default {
   command: {
@@ -91,7 +91,8 @@ export default {
     }).catch(_ => {
       return interaction.createMessage({
         embeds: [{
-          description: `**${icons.Warning} modal creation rejected!** \nI was unable to create the modal for whatever reason.. try again!`
+          description: `**${icons.Warning} modal creation rejected!** \nI was unable to create the modal for whatever reason.. try again!`,
+          color: colors.Warning
         }]
       })
     });
